@@ -34,9 +34,9 @@ public class TestSchema {
 
             // Multiple columns.
             new Schema(Arrays.asList("x", "y", "z"),
-            Arrays.asList(Type.boolType(), Type.intType(), Type.floatType())),
+                       Arrays.asList(Type.boolType(), Type.intType(), Type.floatType())),
             new Schema(Arrays.asList("x", "y"),
-            Arrays.asList(Type.boolType(), Type.stringType(42))),
+                       Arrays.asList(Type.boolType(), Type.stringType(42))),
         };
 
         int[] expectedSizes = {1, 4, 4, 1, 10, 9, 43};
@@ -104,9 +104,9 @@ public class TestSchema {
 
             // Multiple columns.
             new Schema(Arrays.asList("x", "y", "z"),
-            Arrays.asList(Type.boolType(), Type.intType(), Type.floatType())),
+                       Arrays.asList(Type.boolType(), Type.intType(), Type.floatType())),
             new Schema(Arrays.asList("x", "y"),
-            Arrays.asList(Type.boolType(), Type.stringType(42))),
+                       Arrays.asList(Type.boolType(), Type.stringType(42))),
         };
 
         for (Schema schema : schemas) {

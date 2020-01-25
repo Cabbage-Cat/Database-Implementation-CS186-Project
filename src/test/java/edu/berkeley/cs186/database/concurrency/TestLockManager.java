@@ -142,7 +142,7 @@ public class TestLockManager {
         runner.run(0, () -> {
             lockman.acquireAndRelease(transactions[0], tables[0], LockType.S, Collections.emptyList());
             lockman.acquireAndRelease(transactions[0], tables[0], LockType.X,
-            Collections.singletonList(tables[0]));
+                                      Collections.singletonList(tables[0]));
         });
         assertEquals(LockType.X, lockman.getLockType(transactions[0], tables[0]));
         assertEquals(Collections.singletonList(new Lock(tables[0], LockType.X, 0L)),

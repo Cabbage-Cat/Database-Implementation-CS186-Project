@@ -26,8 +26,8 @@ public class TestRecord {
             new Schema(Arrays.asList("x"), Arrays.asList(Type.floatType())),
             new Schema(Arrays.asList("x"), Arrays.asList(Type.stringType(3))),
             new Schema(Arrays.asList("w", "x", "y", "z"),
-            Arrays.asList(Type.boolType(), Type.intType(),
-            Type.floatType(), Type.stringType(3))),
+                       Arrays.asList(Type.boolType(), Type.intType(),
+                                     Type.floatType(), Type.stringType(3))),
         };
 
         Record[] records = {
@@ -36,11 +36,11 @@ public class TestRecord {
             new Record(Arrays.asList(new FloatDataBox(0f))),
             new Record(Arrays.asList(new StringDataBox("foo", 3))),
             new Record(Arrays.asList(
-                new BoolDataBox(false),
-                new IntDataBox(0),
-                new FloatDataBox(0f),
-                new StringDataBox("foo", 3)
-            ))
+                           new BoolDataBox(false),
+                           new IntDataBox(0),
+                           new FloatDataBox(0f),
+                           new StringDataBox("foo", 3)
+                       ))
         };
 
         assert(schemas.length == records.length);

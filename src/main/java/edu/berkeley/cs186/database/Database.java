@@ -319,7 +319,7 @@ public class Database implements AutoCloseable {
                     // if table exists due to X(table metadata) lock
                     LockContext tableContext = getTableContext(record.tableName, record.partNum);
                     HeapFile heapFile = new PageDirectory(bufferManager, record.partNum, record.pageNum, (short) 0,
-                    tableContext);
+                                                          tableContext);
                     Table table = new Table(record.tableName, record.schema, heapFile, tableContext);
                     tableLookup.put(record.tableName, table);
 
@@ -649,15 +649,15 @@ public class Database implements AutoCloseable {
                 }
                 String[] parts = indexName.split(",", 2);
                 return Database.this.indexInfo.addRecord(Arrays.asList(
-                    new StringDataBox(parts[0], 32),
-                    new StringDataBox(parts[1], 32),
-                    new IntDataBox(-1),
-                    new IntDataBox(-1),
-                    new LongDataBox(DiskSpaceManager.INVALID_PAGE_NUM),
-                    new IntDataBox(TypeId.INT.ordinal()),
-                    new IntDataBox(4),
-                    new IntDataBox(-1)
-                ));
+                            new StringDataBox(parts[0], 32),
+                            new StringDataBox(parts[1], 32),
+                            new IntDataBox(-1),
+                            new IntDataBox(-1),
+                            new LongDataBox(DiskSpaceManager.INVALID_PAGE_NUM),
+                            new IntDataBox(TypeId.INT.ordinal()),
+                            new IntDataBox(4),
+                            new IntDataBox(-1)
+                        ));
             });
         }
 

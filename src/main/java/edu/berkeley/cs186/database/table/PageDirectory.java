@@ -211,7 +211,7 @@ public class PageDirectory implements HeapFile {
 
         // creates an invalid data page entry (one where no data page has been allocated yet).
         private DataPageEntry() {
-            this(DiskSpaceManager.INVALID_PAGE_NUM, (short) - 1);
+            this(DiskSpaceManager.INVALID_PAGE_NUM, (short) -1);
         }
 
         private DataPageEntry(long pageNum, short freeSpace) {
