@@ -88,7 +88,7 @@ class BNLJOperator extends JoinOperator {
          * and leftRecord should be set to null.
          */
         private void fetchNextLeftBlock() {
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
         }
 
         /**
@@ -100,7 +100,7 @@ class BNLJOperator extends JoinOperator {
          * should be set to null.
          */
         private void fetchNextRightPage() {
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
         }
 
         /**
@@ -110,7 +110,7 @@ class BNLJOperator extends JoinOperator {
          * @throws NoSuchElementException if there are no more Records to yield
          */
         private void fetchNextRecord() {
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
         }
 
         /**

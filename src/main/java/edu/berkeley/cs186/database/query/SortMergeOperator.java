@@ -56,7 +56,7 @@ class SortMergeOperator extends JoinOperator {
 
         private SortMergeIterator() {
             super();
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
         }
 
         /**
@@ -66,7 +66,7 @@ class SortMergeOperator extends JoinOperator {
          */
         @Override
         public boolean hasNext() {
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
 
             return false;
         }
@@ -79,7 +79,7 @@ class SortMergeOperator extends JoinOperator {
          */
         @Override
         public Record next() {
-            // TODO(hw3_part1): implement
+            // TODO(proj3_part1): implement
 
             throw new NoSuchElementException();
         }

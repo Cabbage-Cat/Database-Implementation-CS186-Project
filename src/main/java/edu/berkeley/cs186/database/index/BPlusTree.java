@@ -86,7 +86,7 @@ public class BPlusTree {
      * All pages allocated on the given partition are serializations of inner and leaf nodes.
      */
     public BPlusTree(BufferManager bufferManager, BPlusTreeMetadata metadata, LockContext lockContext) {
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj4_part2): B+ tree locking
 
         // Sanity checks.
         if (metadata.getOrder() < 0) {
@@ -136,8 +136,8 @@ public class BPlusTree {
      */
     public Optional<RecordId> get(DataBox key) {
         typecheck(key);
-        // TODO(hw2): implement
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): implement
+        // TODO(proj4_part2): B+ tree locking
 
         return Optional.empty();
     }
@@ -151,7 +151,7 @@ public class BPlusTree {
      */
     public Iterator<RecordId> scanEqual(DataBox key) {
         typecheck(key);
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj4_part2): B+ tree locking
 
         Optional<RecordId> rid = get(key);
         if (rid.isPresent()) {
@@ -189,8 +189,8 @@ public class BPlusTree {
      * memory will receive 0 points.
      */
     public Iterator<RecordId> scanAll() {
-        // TODO(hw2): Return a BPlusTreeIterator.
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): Return a BPlusTreeIterator.
+        // TODO(proj4_part2): B+ tree locking
 
         return Collections.emptyIterator();
     }
@@ -220,8 +220,8 @@ public class BPlusTree {
      */
     public Iterator<RecordId> scanGreaterEqual(DataBox key) {
         typecheck(key);
-        // TODO(hw2): Return a BPlusTreeIterator.
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): Return a BPlusTreeIterator.
+        // TODO(proj4_part2): B+ tree locking
 
         return Collections.emptyIterator();
     }
@@ -237,8 +237,8 @@ public class BPlusTree {
      */
     public void put(DataBox key, RecordId rid) {
         typecheck(key);
-        // TODO(hw2): implement
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): implement
+        // TODO(proj4_part2): B+ tree locking
 
         return;
     }
@@ -259,8 +259,8 @@ public class BPlusTree {
      * bulkLoad (see comments in BPlusNode.bulkLoad).
      */
     public void bulkLoad(Iterator<Pair<DataBox, RecordId>> data, float fillFactor) {
-        // TODO(hw2): implement
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): implement
+        // TODO(proj4_part2): B+ tree locking
 
         return;
     }
@@ -278,8 +278,8 @@ public class BPlusTree {
      */
     public void remove(DataBox key) {
         typecheck(key);
-        // TODO(hw2): implement
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj2): implement
+        // TODO(proj4_part2): B+ tree locking
 
         return;
     }
@@ -290,7 +290,7 @@ public class BPlusTree {
      * more information.
      */
     public String toSexp() {
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj4_part2): B+ tree locking
         return root.toSexp();
     }
 
@@ -307,7 +307,7 @@ public class BPlusTree {
      * to create a PDF of the tree.
      */
     public String toDot() {
-        // TODO(hw4_part2): B+ tree locking
+        // TODO(proj4_part2): B+ tree locking
         List<String> strings = new ArrayList<>();
         strings.add("digraph g {" );
         strings.add("  node [shape=record, height=0.1];");
@@ -382,18 +382,18 @@ public class BPlusTree {
 
     // Iterator ////////////////////////////////////////////////////////////////
     private class BPlusTreeIterator implements Iterator<RecordId> {
-        // TODO(hw2): Add whatever fields and constructors you want here.
+        // TODO(proj2): Add whatever fields and constructors you want here.
 
         @Override
         public boolean hasNext() {
-            // TODO(hw2): implement
+            // TODO(proj2): implement
 
             return false;
         }
 
         @Override
         public RecordId next() {
-            // TODO(hw2): implement
+            // TODO(proj2): implement
 
             throw new NoSuchElementException();
         }

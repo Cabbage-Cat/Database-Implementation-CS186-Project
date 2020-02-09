@@ -78,7 +78,7 @@ class InnerNode extends BPlusNode {
     // See BPlusNode.get.
     @Override
     public LeafNode get(DataBox key) {
-        // TODO(hw2): implement
+        // TODO(proj2): implement
 
         return null;
     }
@@ -87,7 +87,7 @@ class InnerNode extends BPlusNode {
     @Override
     public LeafNode getLeftmostLeaf() {
         assert(children.size() > 0);
-        // TODO(hw2): implement
+        // TODO(proj2): implement
 
         return null;
     }
@@ -95,7 +95,7 @@ class InnerNode extends BPlusNode {
     // See BPlusNode.put.
     @Override
     public Optional<Pair<DataBox, Long>> put(DataBox key, RecordId rid) {
-        // TODO(hw2): implement
+        // TODO(proj2): implement
 
         return Optional.empty();
     }
@@ -104,7 +104,7 @@ class InnerNode extends BPlusNode {
     @Override
     public Optional<Pair<DataBox, Long>> bulkLoad(Iterator<Pair<DataBox, RecordId>> data,
             float fillFactor) {
-        // TODO(hw2): implement
+        // TODO(proj2): implement
 
         return Optional.empty();
     }
@@ -112,7 +112,7 @@ class InnerNode extends BPlusNode {
     // See BPlusNode.remove.
     @Override
     public void remove(DataBox key) {
-        // TODO(hw2): implement
+        // TODO(proj2): implement
 
         return;
     }

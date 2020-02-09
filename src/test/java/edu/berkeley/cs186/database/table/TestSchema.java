@@ -20,7 +20,7 @@ import edu.berkeley.cs186.database.databox.StringDataBox;
 import edu.berkeley.cs186.database.databox.Type;
 import org.junit.experimental.categories.Category;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestSchema {
     @Test
     public void testSizeInBytes() {

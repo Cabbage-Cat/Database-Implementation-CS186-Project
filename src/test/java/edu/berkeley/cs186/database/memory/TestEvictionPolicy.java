@@ -1,6 +1,6 @@
 package edu.berkeley.cs186.database.memory;
 
-import edu.berkeley.cs186.database.categories.HW99Tests;
+import edu.berkeley.cs186.database.categories.Proj99Tests;
 import edu.berkeley.cs186.database.categories.SystemTests;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.junit.experimental.categories.Category;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestEvictionPolicy {
     private BufferFrame[] frames;
     private BufferFrame[] placeholderFrames;

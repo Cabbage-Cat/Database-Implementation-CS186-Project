@@ -2,7 +2,7 @@ package edu.berkeley.cs186.database.recovery;
 
 import edu.berkeley.cs186.database.TimeoutScaling;
 import edu.berkeley.cs186.database.Transaction;
-import edu.berkeley.cs186.database.categories.HW5Tests;
+import edu.berkeley.cs186.database.categories.Proj5Tests;
 import edu.berkeley.cs186.database.categories.StudentTestRunner;
 import edu.berkeley.cs186.database.categories.StudentTests;
 import edu.berkeley.cs186.database.common.Pair;
@@ -33,7 +33,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNull;
 
-@Category({HW5Tests.class, StudentTestRunner.class})
+@Category({Proj5Tests.class, StudentTestRunner.class})
 public abstract class TestARIESStudentRunnerBase {
     private Class<? extends RecoveryManager> recoveryManagerClass;
 
@@ -47,10 +47,10 @@ public abstract class TestARIESStudentRunnerBase {
     @Before
     @SuppressWarnings("unchecked")
     public void setup() throws Exception {
-        assertNotNull("TestARIESStudent should have @Category({HW5Tests.class, StudentTests.class})",
+        assertNotNull("TestARIESStudent should have @Category({Proj5Tests.class, StudentTests.class})",
                       TestARIESStudent.class.getAnnotation(Category.class));
-        assertArrayEquals("TestARIESStudent should have @Category({HW5Tests.class, StudentTests.class})",
-                          new Class[] { HW5Tests.class, StudentTests.class }, TestARIESStudent.class.getAnnotation(
+        assertArrayEquals("TestARIESStudent should have @Category({Proj5Tests.class, StudentTests.class})",
+                          new Class[] { Proj5Tests.class, StudentTests.class }, TestARIESStudent.class.getAnnotation(
                               Category.class).value());
         for (Method m : TestARIESStudent.class.getMethods()) {
             assertNull("TestARIESStudent methods should not have @Category", m.getAnnotation(Category.class));

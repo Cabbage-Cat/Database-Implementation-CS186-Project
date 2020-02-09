@@ -94,7 +94,7 @@ public class LockContext {
      */
     public void acquire(TransactionContext transaction, LockType lockType)
     throws InvalidLockException, DuplicateLockRequestException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return;
     }
@@ -112,7 +112,7 @@ public class LockContext {
      */
     public void release(TransactionContext transaction)
     throws NoLockHeldException, InvalidLockException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return;
     }
@@ -134,7 +134,7 @@ public class LockContext {
      */
     public void promote(TransactionContext transaction, LockType newLockType)
     throws DuplicateLockRequestException, NoLockHeldException, InvalidLockException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return;
     }
@@ -161,7 +161,7 @@ public class LockContext {
      * @throws UnsupportedOperationException if context is readonly
      */
     public void escalate(TransactionContext transaction) throws NoLockHeldException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return;
     }
@@ -175,7 +175,7 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         return LockType.NL;
     }
 
@@ -186,7 +186,7 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         return LockType.NL;
     }
 

@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.*;
 
-@Category({HW4Tests.class, HW4Part1Tests.class})
+@Category({Proj4Tests.class, Proj4Part1Tests.class})
 public class TestLockManager {
     private LoggingLockManager lockman;
     private TransactionContext[] transactions;

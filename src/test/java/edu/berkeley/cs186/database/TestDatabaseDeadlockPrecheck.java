@@ -1,7 +1,7 @@
 package edu.berkeley.cs186.database;
 
-import edu.berkeley.cs186.database.categories.HW4Part2Tests;
-import edu.berkeley.cs186.database.categories.HW4Tests;
+import edu.berkeley.cs186.database.categories.Proj4Part2Tests;
+import edu.berkeley.cs186.database.categories.Proj4Tests;
 import edu.berkeley.cs186.database.categories.PublicTests;
 import edu.berkeley.cs186.database.common.Pair;
 import edu.berkeley.cs186.database.concurrency.LockType;
@@ -20,7 +20,7 @@ import java.io.UncheckedIOException;
 
 import static org.junit.Assert.assertTrue;
 
-@Category({HW4Tests.class, HW4Part2Tests.class})
+@Category({Proj4Tests.class, Proj4Part2Tests.class})
 public class TestDatabaseDeadlockPrecheck {
     private static final String TestDir = "testDatabaseDeadlockPrecheck";
 

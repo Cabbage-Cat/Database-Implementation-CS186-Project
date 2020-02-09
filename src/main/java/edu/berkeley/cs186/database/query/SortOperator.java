@@ -71,7 +71,7 @@ public class SortOperator {
      * size of the buffer, but it is done this way for ease.
      */
     public Run sortRun(Run run) {
-        // TODO(hw3_part1): implement
+        // TODO(proj3_part1): implement
 
         return null;
     }
@@ -85,7 +85,7 @@ public class SortOperator {
      * sorting on currently unmerged from run i.
      */
     public Run mergeSortedRuns(List<Run> runs) {
-        // TODO(hw3_part1): implement
+        // TODO(proj3_part1): implement
 
         return null;
     }
@@ -96,7 +96,7 @@ public class SortOperator {
      * of the input runs at a time.
      */
     public List<Run> mergePass(List<Run> runs) {
-        // TODO(hw3_part1): implement
+        // TODO(proj3_part1): implement
 
         return Collections.emptyList();
     }
@@ -107,9 +107,9 @@ public class SortOperator {
      * Returns the name of the table that backs the final run.
      */
     public String sort() {
-        // TODO(hw3_part1): implement
+        // TODO(proj3_part1): implement
 
-        return this.tableName; // TODO(hw3_part1): replace this!
+        return this.tableName; // TODO(proj3_part1): replace this!
     }
 
     public Iterator<Record> iterator() {

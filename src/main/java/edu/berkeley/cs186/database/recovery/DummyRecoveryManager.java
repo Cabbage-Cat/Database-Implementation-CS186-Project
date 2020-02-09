@@ -29,7 +29,7 @@ public class DummyRecoveryManager implements RecoveryManager {
 
     @Override
     public long abort(long transNum) {
-        throw new UnsupportedOperationException("hw5 must be implemented to use abort");
+        throw new UnsupportedOperationException("proj5 must be implemented to use abort");
     }
 
     @Override
@@ -73,22 +73,22 @@ public class DummyRecoveryManager implements RecoveryManager {
 
     @Override
     public void savepoint(long transNum, String name) {
-        throw new UnsupportedOperationException("hw5 must be implemented to use savepoints");
+        throw new UnsupportedOperationException("proj5 must be implemented to use savepoints");
     }
 
     @Override
     public void releaseSavepoint(long transNum, String name) {
-        throw new UnsupportedOperationException("hw5 must be implemented to use savepoints");
+        throw new UnsupportedOperationException("proj5 must be implemented to use savepoints");
     }
 
     @Override
     public void rollbackToSavepoint(long transNum, String name) {
-        throw new UnsupportedOperationException("hw5 must be implemented to use savepoints");
+        throw new UnsupportedOperationException("proj5 must be implemented to use savepoints");
     }
 
     @Override
     public void checkpoint() {
-        throw new UnsupportedOperationException("hw5 must be implemented to use checkpoints");
+        throw new UnsupportedOperationException("proj5 must be implemented to use checkpoints");
     }
 
     @Override

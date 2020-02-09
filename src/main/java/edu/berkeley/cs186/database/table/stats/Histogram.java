@@ -112,7 +112,7 @@ public class Histogram {
      *              final bucket is inclusive on the last value.
      */
     public void buildHistogram(Table table, int attribute) {
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         //1. first calculate the min and the max values
 
@@ -262,7 +262,7 @@ public class Histogram {
     private float [] allEquality(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         return result;
     }
@@ -274,7 +274,7 @@ public class Histogram {
     private float [] allNotEquality(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         return result;
     }
@@ -286,7 +286,7 @@ public class Histogram {
     private float [] allGreaterThan(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         return result;
     }
@@ -298,7 +298,7 @@ public class Histogram {
     private float [] allLessThan(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         return result;
     }

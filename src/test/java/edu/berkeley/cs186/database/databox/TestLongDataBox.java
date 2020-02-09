@@ -1,6 +1,6 @@
 package edu.berkeley.cs186.database.databox;
 
-import edu.berkeley.cs186.database.categories.HW99Tests;
+import edu.berkeley.cs186.database.categories.Proj99Tests;
 import edu.berkeley.cs186.database.categories.SystemTests;
 import edu.berkeley.cs186.database.common.ByteBuffer;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.experimental.categories.Category;
 
 import static org.junit.Assert.*;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestLongDataBox {
     @Test
     public void testType() {

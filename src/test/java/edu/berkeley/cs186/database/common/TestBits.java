@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestBits {
     @Test
     public void testGetBitOnByte() {

@@ -1,6 +1,6 @@
-# Homework 4: Locking
+# Project 4: Locking
 
-This homework is divided into two parts.
+This project is divided into two parts.
 
 Part 1 is due: **Friday, 4/3/2020, 11:59 PM**.
 
@@ -21,9 +21,9 @@ and Part 2 at 6:00 PM the day after it is due, you will recieve:
 
 ## Overview
 
-In this assignment, you will implement multigranularity locking and integrate
+In this project, you will implement multigranularity locking and integrate
 it into the codebase.
 
 ## Getting Started
 
-This homework will be released on **Wednesday, 3/18/2020**.
+This assignment will be released on **Wednesday, 3/18/2020**.

@@ -18,7 +18,7 @@ public enum LockType {
         if (a == null || b == null) {
             throw new NullPointerException("null lock type");
         }
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return false;
     }
@@ -50,7 +50,7 @@ public enum LockType {
         if (parentLockType == null || childLockType == null) {
             throw new NullPointerException("null lock type");
         }
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return false;
     }
@@ -65,7 +65,7 @@ public enum LockType {
         if (required == null || substitute == null) {
             throw new NullPointerException("null lock type");
         }
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return false;
     }

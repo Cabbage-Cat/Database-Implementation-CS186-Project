@@ -26,7 +26,7 @@ import edu.berkeley.cs186.database.table.RecordId;
 
 import static org.junit.Assert.*;
 
-@Category(HW2Tests.class)
+@Category(Proj2Tests.class)
 public class TestInnerNode {
     private BufferManager bufferManager;
     private BPlusTreeMetadata metadata;

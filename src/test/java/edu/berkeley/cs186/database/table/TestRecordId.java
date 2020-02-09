@@ -10,7 +10,7 @@ import edu.berkeley.cs186.database.common.ByteBuffer;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestRecordId {
     @Test
     public void testSizeInBytes() {

@@ -26,7 +26,7 @@ import org.junit.rules.Timeout;
 
 import static org.junit.Assert.assertTrue;
 
-@Category({HW3Tests.class, HW3Part2Tests.class})
+@Category({Proj3Tests.class, Proj3Part2Tests.class})
 public class TestSingleAccess {
     private static final String TABLENAME = "T";
 

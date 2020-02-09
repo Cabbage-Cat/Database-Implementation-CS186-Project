@@ -26,7 +26,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Category({HW3Tests.class, HW3Part2Tests.class})
+@Category({Proj3Tests.class, Proj3Part2Tests.class})
 public class TestHistogram {
     private static final String TABLENAME = "testtable";
     private Table table;

@@ -225,7 +225,7 @@ public class QueryPlan {
      * @return an iterator of records that is the result of this query
      */
     public Iterator<Record> execute() {
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         // Pass 1: Iterate through all single tables. For each single table, find
         // the lowest cost QueryOperator to access that table. Construct a mapping
@@ -238,7 +238,7 @@ public class QueryPlan {
         // Get the lowest cost operator from the last pass, add GROUP BY and SELECT
         // operators, and return an iterator on the final operator
 
-        return this.executeNaive(); // TODO(hw3_part2): Replace this!!! Allows you to test intermediate functionality
+        return this.executeNaive(); // TODO(proj3_part2): Replace this!!! Allows you to test intermediate functionality
     }
 
     /**
@@ -330,7 +330,7 @@ public class QueryPlan {
         // Find the cost of a sequential scan of the table
         // minOp = new SequentialScanOperator(this.transaction, table);
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         // 1. Find the cost of a sequential scan of the table
 
@@ -386,7 +386,7 @@ public class QueryPlan {
                                          Map<Set, QueryOperator> pass1Map) {
         Map<Set, QueryOperator> map = new HashMap<>();
 
-        // TODO(hw3_part2): implement
+        // TODO(proj3_part2): implement
 
         //We provide a basic description of the logic you have to implement
 

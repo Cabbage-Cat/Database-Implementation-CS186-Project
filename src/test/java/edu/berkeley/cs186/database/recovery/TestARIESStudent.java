@@ -2,7 +2,7 @@ package edu.berkeley.cs186.database.recovery;
 
 import edu.berkeley.cs186.database.TimeoutScaling;
 import edu.berkeley.cs186.database.Transaction;
-import edu.berkeley.cs186.database.categories.HW5Tests;
+import edu.berkeley.cs186.database.categories.Proj5Tests;
 import edu.berkeley.cs186.database.categories.StudentTests;
 import edu.berkeley.cs186.database.common.Pair;
 import edu.berkeley.cs186.database.concurrency.DummyLockContext;
@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * File for student tests for HW5 (Recovery). Tests are run through
+ * File for student tests for Project 5 (Recovery). Tests are run through
  * TestARIESStudentRunner for grading purposes.
  */
-@Category({HW5Tests.class, StudentTests.class})
+@Category({Proj5Tests.class, StudentTests.class})
 public class TestARIESStudent {
     private String testDir;
     private RecoveryManager recoveryManager;
@@ -57,7 +57,7 @@ public class TestARIESStudent {
 
     @Test
     public void testStudentAnalysis() throws Exception {
-        // TODO(hw5): write your own test on restartAnalysis only
+        // TODO(proj5): write your own test on restartAnalysis only
         // You should use loadRecoveryManager instead of new ARIESRecoveryManager(..) to
         // create the recovery manager, and use runAnalysis(inner) instead of
         // inner.restartAnalysis() to call the analysis routine.
@@ -65,7 +65,7 @@ public class TestARIESStudent {
 
     @Test
     public void testStudentRedo() throws Exception {
-        // TODO(hw5): write your own test on restartRedo only
+        // TODO(proj5): write your own test on restartRedo only
         // You should use loadRecoveryManager instead of new ARIESRecoveryManager(..) to
         // create the recovery manager, and use runRedo(inner) instead of
         // inner.restartRedo() to call the analysis routine.
@@ -73,7 +73,7 @@ public class TestARIESStudent {
 
     @Test
     public void testStudentUndo() throws Exception {
-        // TODO(hw5): write your own test on restartUndo only
+        // TODO(proj5): write your own test on restartUndo only
         // You should use loadRecoveryManager instead of new ARIESRecoveryManager(..) to
         // create the recovery manager, and use runUndo(inner) instead of
         // inner.restartUndo() to call the analysis routine.
@@ -81,26 +81,26 @@ public class TestARIESStudent {
 
     @Test
     public void testStudentIntegration() throws Exception {
-        // TODO(hw5): write your own test on all of RecoveryManager
+        // TODO(proj5): write your own test on all of RecoveryManager
         // You should use loadRecoveryManager instead of new ARIESRecoveryManager(..) to
         // create the recovery manager.
     }
 
-    // TODO(hw5): add as many (ungraded) tests as you want for testing!
+    // TODO(proj5): add as many (ungraded) tests as you want for testing!
 
     @Test
     public void testCase() throws Exception {
-        // TODO(hw5): write your own test! (ungraded)
+        // TODO(proj5): write your own test! (ungraded)
     }
 
     @Test
     public void anotherTestCase() throws Exception {
-        // TODO(hw5): write your own test!!! (ungraded)
+        // TODO(proj5): write your own test!!! (ungraded)
     }
 
     @Test
     public void yetAnotherTestCase() throws Exception {
-        // TODO(hw5): write your own test!!!!! (ungraded)
+        // TODO(proj5): write your own test!!!!! (ungraded)
     }
 
     /*************************************************************************

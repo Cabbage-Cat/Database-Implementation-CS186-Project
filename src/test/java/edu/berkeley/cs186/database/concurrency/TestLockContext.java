@@ -19,7 +19,7 @@ import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
 
-@Category({HW4Tests.class, HW4Part1Tests.class})
+@Category({Proj4Tests.class, Proj4Part1Tests.class})
 public class TestLockContext {
     private LoggingLockManager lockManager;
 

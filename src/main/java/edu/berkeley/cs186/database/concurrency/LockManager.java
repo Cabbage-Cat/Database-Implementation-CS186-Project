@@ -57,7 +57,7 @@ public class LockManager {
         // Queue for yet-to-be-satisfied lock requests on this resource.
         Deque<LockRequest> waitingQueue = new ArrayDeque<>();
 
-        // TODO(hw4_part1): You may add helper methods here if you wish
+        // TODO(proj4_part1): You may add helper methods here if you wish
 
         @Override
         public String toString() {
@@ -78,7 +78,7 @@ public class LockManager {
         return resourceEntries.get(name);
     }
 
-    // TODO(hw4_part1): You may add helper methods here if you wish
+    // TODO(proj4_part1): You may add helper methods here if you wish
 
     /**
      * Acquire a LOCKTYPE lock on NAME, for transaction TRANSACTION, and releases all locks
@@ -103,7 +103,7 @@ public class LockManager {
     public void acquireAndRelease(TransactionContext transaction, ResourceName name,
                                   LockType lockType, List<ResourceName> releaseLocks)
     throws DuplicateLockRequestException, NoLockHeldException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         // You may modify any part of this method. You are not required to keep all your
         // code within the given synchronized block -- in fact,
         // you will have to write some code outside the synchronized block to avoid locking up
@@ -127,7 +127,7 @@ public class LockManager {
      */
     public void acquire(TransactionContext transaction, ResourceName name,
                         LockType lockType) throws DuplicateLockRequestException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         // You may modify any part of this method. You are not required to keep all your
         // code within the given synchronized block -- in fact,
         // you will have to write some code outside the synchronized block to avoid locking up
@@ -151,7 +151,7 @@ public class LockManager {
      */
     public void release(TransactionContext transaction, ResourceName name)
     throws NoLockHeldException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         // You may modify any part of this method.
         synchronized (this) {
             return;
@@ -181,7 +181,7 @@ public class LockManager {
     public void promote(TransactionContext transaction, ResourceName name,
                         LockType newLockType)
     throws DuplicateLockRequestException, NoLockHeldException, InvalidLockException {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
         // You may modify any part of this method.
         synchronized (this) {
             return;
@@ -192,7 +192,7 @@ public class LockManager {
      * Return the type of lock TRANSACTION has on NAME (return NL if no lock is held).
      */
     public synchronized LockType getLockType(TransactionContext transaction, ResourceName name) {
-        // TODO(hw4_part1): implement
+        // TODO(proj4_part1): implement
 
         return LockType.NL;
     }

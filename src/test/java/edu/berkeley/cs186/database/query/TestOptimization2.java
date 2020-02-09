@@ -24,7 +24,7 @@ import org.junit.rules.DisableOnDebug;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
-@Category({HW3Tests.class, HW3Part2Tests.class})
+@Category({Proj3Tests.class, Proj3Part2Tests.class})
 public class TestOptimization2 {
     private static final String TABLENAME = "T";
 

@@ -21,7 +21,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <HW></HW>
+        <proj></proj>
     </properties>
 
     <build>
@@ -45,7 +45,7 @@
                     </excludes>
                     <trimStackTrace>false</trimStackTrace>
                     <argLine> -Xms32m -Xmx32m </argLine> <!--ADD TEST JVM ARGS HERE i.e '-Xms8m -Xmx8m' to limit memory to 8m -->
-                    <groups>edu.berkeley.cs186.database.categories.HW${HW}Tests</groups>
+                    <groups>edu.berkeley.cs186.database.categories.Proj${proj}Tests</groups>
                 </configuration>
             </plugin>
         </plugins>

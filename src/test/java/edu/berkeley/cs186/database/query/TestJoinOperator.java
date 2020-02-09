@@ -29,7 +29,7 @@ import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
 
-@Category({HW3Tests.class, HW3Part1Tests.class})
+@Category({Proj3Tests.class, Proj3Part1Tests.class})
 public class TestJoinOperator {
     private Database d;
     private long numIOs;

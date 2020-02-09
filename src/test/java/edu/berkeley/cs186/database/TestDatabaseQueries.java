@@ -23,7 +23,7 @@ import edu.berkeley.cs186.database.table.Record;
 import edu.berkeley.cs186.database.table.Schema;
 import static org.junit.Assert.*;
 
-@Category({HW99Tests.class})
+@Category({Proj99Tests.class})
 public class TestDatabaseQueries {
     private Database database;
     private Transaction transaction;

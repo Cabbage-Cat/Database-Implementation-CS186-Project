@@ -2,8 +2,8 @@ package edu.berkeley.cs186.database.concurrency;
 
 import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.TimeoutScaling;
-import edu.berkeley.cs186.database.categories.HW4Part2Tests;
-import edu.berkeley.cs186.database.categories.HW4Tests;
+import edu.berkeley.cs186.database.categories.Proj4Part2Tests;
+import edu.berkeley.cs186.database.categories.Proj4Tests;
 import edu.berkeley.cs186.database.categories.HiddenTests;
 import edu.berkeley.cs186.database.categories.PublicTests;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import java.util.Collections;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Category({HW4Tests.class, HW4Part2Tests.class})
+@Category({Proj4Tests.class, Proj4Part2Tests.class})
 public class TestLockUtil {
     private LoggingLockManager lockManager;
     private TransactionContext transaction;

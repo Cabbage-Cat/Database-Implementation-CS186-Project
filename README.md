@@ -1,7 +1,7 @@
 # MOOCbase
 
 This repo contains a bare-bones database implementation, which supports
-executing simple transactions in series. In the homeworks of
+executing simple transactions in series. In the assignments of
 this class, you will be adding to this implementation, adding support for
 B+ tree indices, efficient join algorithms, query optimization, multigranularity
 locking to support concurrent execution of transactions, and database recovery.
@@ -17,7 +17,7 @@ In this document, we explain
 - how to fetch any updates to the released code
 - how to setup a local development environment
 - how to run tests inside the CS186 docker container and using IntelliJ
-- how to submit your code to turn in homeworks
+- how to submit your code to turn in assignments
 - how to reset your docker container
 - the general architecture of the released code
 
@@ -115,7 +115,7 @@ need help resolving merge conflicts, please come to office hours.
 
 ## Setting up your local development environment
 
-You are free to use any text editor or IDE to complete the homeworks, but **we
+You are free to use any text editor or IDE to complete the assignments, but **we
 will build and test your code in the docker container with maven**.
 
 We recommend setting up a more local development environment by installing Java
@@ -141,7 +141,7 @@ The code in this repository comes with a set of tests that can be run. These
 test cases are not comprehensive, and we suggest writing your own to ensure that
 your code is correct.
 
-To run all the tests for a particular homework, start the container, navigate
+To run all the tests for a particular assignment, start the container, navigate
 to the cloned repo (`cd /cs186/sp20-moocbase`), and run the following command:
 ```bash
 mvn clean test -DHW=n
@@ -149,7 +149,7 @@ mvn clean test -DHW=n
 
 but replace `n` with one of: `0`, `2`, `3Part1`, `3Part2`, `4Part1`, `4Part2`, `5`.
 
-Before submitting any homeworks, be sure to run tests inside your container. **We
+Before submitting any assignments, be sure to run tests inside your container. **We
 will not be accepting "the test ran successfully in my IDE" as an excuse -- you
 are responsible for making sure the tests run successfully _in the docker
 container_**.
@@ -190,9 +190,9 @@ If you are using IntelliJ, and wish to run the same tests that
 
 [IntelliJ setup](intellij-test-setup.md)
 
-## Submitting homeworks
+## Submitting assignments
 
-To submit a homework, **start your container**, navigate to the cloned repo, and
+To submit a homework or project, **start your container**, navigate to the cloned repo, and
 run:
 ```bash
 python3 turn_in.py
@@ -201,7 +201,7 @@ python3 turn_in.py
 This will generate a zip file. Upload the zip file to the Homework Submission
 assignment on edX.
 
-Note that you are only allowed to modify certain files for each homework, and
+Note that you are only allowed to modify certain files for each assignment, and
 changes to other files you are not allowed to modify will be discarded when we
 run tests.
 

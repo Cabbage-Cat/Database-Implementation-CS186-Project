@@ -110,7 +110,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
      */
     @Override
     public long commit(long transNum) {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return -1L;
     }
 
@@ -125,7 +125,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
      */
     @Override
     public long abort(long transNum) {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return -1L;
     }
 
@@ -142,7 +142,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
      */
     @Override
     public long end(long transNum) {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return -1L;
     }
 
@@ -196,7 +196,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
                              byte[] after) {
         assert (before.length == after.length);
 
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return -1L;
     }
 
@@ -385,7 +385,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
         // All of the transaction's changes strictly after the record at LSN should be undone.
         long LSN = transactionEntry.getSavepoint(name);
 
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return;
     }
 
@@ -413,7 +413,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
         Map<Long, List<Long>> touchedPages = new HashMap<>();
         int numTouchedPages = 0;
 
-        // TODO(hw5): generate end checkpoint record(s) for DPT and transaction table
+        // TODO(proj5): generate end checkpoint record(s) for DPT and transaction table
 
         for (Map.Entry<Long, TransactionTableEntry> entry : transactionTable.entrySet()) {
             long transNum = entry.getKey();
@@ -452,7 +452,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
         logManager.rewriteMasterRecord(masterRecord);
     }
 
-    // TODO(hw5): add any helper methods needed
+    // TODO(proj5): add any helper methods needed
 
     @Override
     public void close() {
@@ -477,7 +477,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
      */
     @Override
     public Runnable restart() {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return () -> {};
     }
 
@@ -524,7 +524,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
         // Get start checkpoint LSN
         long LSN = masterRecord.lastCheckpointLSN;
 
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return;
     }
 
@@ -539,7 +539,7 @@ public class ARIESRecoveryManager implements RecoveryManager {
      * - about a partition (Alloc/Free/Undo..Part), redo it.
      */
     void restartRedo() {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return;
     }
 
@@ -555,11 +555,11 @@ public class ARIESRecoveryManager implements RecoveryManager {
      * - if the new LSN is 0, end the transaction and remove it from the queue and transaction table.
      */
     void restartUndo() {
-        // TODO(hw5): implement
+        // TODO(proj5): implement
         return;
     }
 
-    // TODO(hw5): add any helper methods needed
+    // TODO(proj5): add any helper methods needed
 
     // Helpers ///////////////////////////////////////////////////////////////////////////////
 

@@ -67,7 +67,7 @@ public interface Transaction extends AutoCloseable {
      * Rolls back a transaction. Equivalent to
      *      ROLLBACK
      *
-     * HW5 (Recovery) must be fully implemented.
+     * Project 5 (Recovery) must be fully implemented.
      */
     void rollback();
 
@@ -113,8 +113,8 @@ public interface Transaction extends AutoCloseable {
      *      CREATE INDEX tableName_columnName ON tableName (columnName)
      * in postgres.
      *
-     * The only index supported is a B+ tree. Indices require HW2 (B+ trees) to
-     * be fully implemented. Bulk loading requires HW3 Part 1 (Joins/Sorting) to be
+     * The only index supported is a B+ tree. Indices require Project 2 (B+ trees) to
+     * be fully implemented. Bulk loading requires Project 3 Part 1 (Joins/Sorting) to be
      * fully implemented as well.
      *
      * @param tableName name of table to create index for
@@ -207,7 +207,7 @@ public interface Transaction extends AutoCloseable {
      * at any point before committing/aborting. Equivalent to
      *      SAVEPOINT savepointName
      *
-     * Savepoints require HW5 (recovery) to be fully implemented.
+     * Savepoints require Project 5 (recovery) to be fully implemented.
      *
      * @param savepointName name of savepoint
      */
@@ -218,7 +218,7 @@ public interface Transaction extends AutoCloseable {
      * Equivalent to
      *      ROLLBACK TO savepointName
      *
-     * Savepoints require HW5 (recovery) to be fully implemented.
+     * Savepoints require Project 5 (recovery) to be fully implemented.
      *
      * @param savepointName name of savepoint
      */
@@ -228,7 +228,7 @@ public interface Transaction extends AutoCloseable {
      * Deletes a savepoint. Equivalent to
      *      RELEASE SAVEPOINT
      *
-     * Savepoints require HW5 (recovery) to be fully implemented.
+     * Savepoints require Project 5 (recovery) to be fully implemented.
      *
      * @param savepointName name of savepoint
      */

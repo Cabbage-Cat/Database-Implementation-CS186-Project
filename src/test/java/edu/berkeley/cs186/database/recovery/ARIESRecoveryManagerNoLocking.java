@@ -5,7 +5,7 @@ import edu.berkeley.cs186.database.concurrency.LockContext;
 
 import java.util.function.Function;
 
-// Instrumented version of ARIESRecoveryManager for testing, without locking so that tests pass without HW4.
+// Instrumented version of ARIESRecoveryManager for testing, without locking so that tests pass without Proj4.
 class ARIESRecoveryManagerNoLocking extends ARIESRecoveryManager {
     long transactionCounter = 0L;
 

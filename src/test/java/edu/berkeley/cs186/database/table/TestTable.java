@@ -23,7 +23,7 @@ import edu.berkeley.cs186.database.TestUtils;
 import edu.berkeley.cs186.database.common.iterator.BacktrackingIterator;
 import edu.berkeley.cs186.database.databox.IntDataBox;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestTable {
     private static final String TABLENAME = "testtable";
     private MemoryHeapFile heapFile;

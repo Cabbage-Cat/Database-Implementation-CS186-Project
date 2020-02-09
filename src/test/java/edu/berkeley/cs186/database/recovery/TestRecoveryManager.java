@@ -2,7 +2,7 @@ package edu.berkeley.cs186.database.recovery;
 
 import edu.berkeley.cs186.database.TimeoutScaling;
 import edu.berkeley.cs186.database.Transaction;
-import edu.berkeley.cs186.database.categories.HW5Tests;
+import edu.berkeley.cs186.database.categories.Proj5Tests;
 import edu.berkeley.cs186.database.categories.HiddenTests;
 import edu.berkeley.cs186.database.categories.PublicTests;
 import edu.berkeley.cs186.database.common.Pair;
@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
-@Category(HW5Tests.class)
+@Category(Proj5Tests.class)
 public class TestRecoveryManager {
     private String testDir;
     private RecoveryManager recoveryManager;

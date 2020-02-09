@@ -19,12 +19,12 @@ public class LockUtil {
      * If the current transaction is null (i.e. there is no current transaction), this method should do nothing.
      */
     public static void ensureSufficientLockHeld(LockContext lockContext, LockType lockType) {
-        // TODO(hw4_part2): implement
+        // TODO(proj4_part2): implement
 
         TransactionContext transaction = TransactionContext.getTransaction(); // current transaction
 
         return;
     }
 
-    // TODO(hw4_part2): add helper methods as you see fit
+    // TODO(proj4_part2): add helper methods as you see fit
 }

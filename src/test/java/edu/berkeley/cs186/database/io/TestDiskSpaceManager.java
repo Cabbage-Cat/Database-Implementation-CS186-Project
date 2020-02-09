@@ -1,6 +1,6 @@
 package edu.berkeley.cs186.database.io;
 
-import edu.berkeley.cs186.database.categories.HW99Tests;
+import edu.berkeley.cs186.database.categories.Proj99Tests;
 import edu.berkeley.cs186.database.categories.SystemTests;
 import edu.berkeley.cs186.database.recovery.DummyRecoveryManager;
 import org.junit.Before;
@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
-@Category({HW99Tests.class, SystemTests.class})
+@Category({Proj99Tests.class, SystemTests.class})
 public class TestDiskSpaceManager {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();

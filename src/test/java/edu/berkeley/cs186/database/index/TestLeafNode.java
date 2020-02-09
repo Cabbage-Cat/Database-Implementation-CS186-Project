@@ -34,7 +34,7 @@ import edu.berkeley.cs186.database.databox.IntDataBox;
 import edu.berkeley.cs186.database.databox.Type;
 import edu.berkeley.cs186.database.table.RecordId;
 
-@Category(HW2Tests.class)
+@Category(Proj2Tests.class)
 public class TestLeafNode {
     private BufferManager bufferManager;
     private BPlusTreeMetadata metadata;

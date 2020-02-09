@@ -1,6 +1,6 @@
-# Homework 3: Joins and Query Optimization
+# Project 3: Joins and Query Optimization
 
-This homework is divided into two parts.
+This project is divided into two parts.
 
 Part 1 is due: **Sunday, 3/8/2020, 11:59 PM**.
 
@@ -23,9 +23,9 @@ and Part 2 at 6:00 PM the day after it is due, you will recieve:
 
 ## Overview
 
-In this assignment, you will implement some join algorithms and a limited
+In this project, you will implement some join algorithms and a limited
 version of the Selinger optimizer.
 
 ## Getting Started
 
-This homework will be released on **Friday, 2/28/2020**.
+This assignment will be released on **Friday, 2/28/2020**.
