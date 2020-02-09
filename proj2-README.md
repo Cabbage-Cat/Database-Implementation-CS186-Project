@@ -17,10 +17,14 @@ The test cases for this project are all located in
 in the container, run the following inside `/cs186/sp20-moocbase`:
 
 ```bash
+git pull
 mvn clean test -D proj=2
 ```
 
 There should be 16 failures, 4 errors, and 20 tests run.
+
+**It is essential that your run `git pull` before starting work on this project to get 
+the most recent updates.**
 
 ## Understanding the Skeleton Code
 
