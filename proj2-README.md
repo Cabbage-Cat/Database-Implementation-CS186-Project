@@ -23,8 +23,8 @@ mvn clean test -D proj=2
 
 There should be 16 failures, 4 errors, and 20 tests run.
 
-**It is essential that your run `git pull` before starting work on this project to get 
-the most recent updates.**
+**It is essential that you run `git pull` in the `/cs186/sp20-moocbase` directory before 
+starting work on this project to get the most recent updates.**
 
 ## Understanding the Skeleton Code
 
