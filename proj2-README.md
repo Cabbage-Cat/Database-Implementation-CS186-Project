@@ -1,6 +1,6 @@
 # Project 2: B+ Trees
 
-This project is due: **Wednesday, 2/26/2020, 11:59 PM**.
+This project is due: **Friday, 2/21/2020, 11:59 PM**.
 
 ## Overview
 
