@@ -28,4 +28,4 @@ version of the Selinger optimizer.
 
 ## Getting Started
 
-This assignment will be released on **Friday, 2/28/2020**.
+This assignment will be released on **Monday, 2/24/2020**.
