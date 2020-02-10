@@ -17,7 +17,7 @@ The test cases for this project are all located in
 in the container, run the following inside `/cs186/sp20-moocbase`:
 
 ```bash
-git pull
+git pull origin master
 mvn clean test -D proj=2
 ```
 
