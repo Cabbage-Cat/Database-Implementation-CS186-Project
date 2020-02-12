@@ -9,7 +9,7 @@ This document will help you set up IntelliJ for running an assignment's tests
    ![unnamed configuration menu](images/intellij-empty-configuration.png)
 3. Fill in the fields as listed below, then press OK.
    ![filled in menu](images/intellij-filledin-configuration.png)
-   - Name: Proj2 tests (or whichever assignment you're setting up)
+   - Name: Proj2Tests (or whichever assignment you're setting up)
    - Test kind: Category
    - Category: edu.berkeley.cs186.database.categories.Proj2Tests (or the category corresponding to the assignment you're setting up)
    - Search for tests: In whole project
