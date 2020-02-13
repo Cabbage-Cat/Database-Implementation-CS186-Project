@@ -148,7 +148,6 @@ You should make sure that all code you modify belongs to files with proj2 todo c
 helper methods to DataBox). A full list of files that you may modify follows:
 
 - index/BPlusTree.java
-- index/BPlusNode.java
 - index/InnerNode.java
 - index/LeafNode.java
 
