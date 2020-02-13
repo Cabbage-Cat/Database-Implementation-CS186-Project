@@ -73,8 +73,8 @@ you are implementing (`this.lockContext` for
 You should first implement the `fromBytes` in `LeafNode`.
   This method reads a `LeafNode` from a page. For information on how a leaf
   node is serialized, see `LeafNode::toBytes`. For an example on how to read a node
-  from disk, see `InnerNode::fromBytes`. Note that `testToAndFromBytes` will not
-  pass just from completing this method, you need to complete `LeafNode#put`.
+  from disk, see `InnerNode::fromBytes`. Once you have implemented `fromBytes`, you should
+  be passing `testToAndFromBytes`.
 
 After implementing `fromBytes`, you will need to implement the following methods
 in `LeafNode`, `InnerNode`, and `BPlusTree`:

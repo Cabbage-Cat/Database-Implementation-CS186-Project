@@ -296,13 +296,21 @@ public class TestLeafNode {
 
         List<DataBox> keys = new ArrayList<>();
         List<RecordId> rids = new ArrayList<>();
+
         LeafNode leaf = new LeafNode(metadata, bufferManager, keys, rids, Optional.of(42L), treeContext);
+
         long pageNum = leaf.getPage().getPageNum();
 
         assertEquals(leaf, LeafNode.fromBytes(metadata, bufferManager, treeContext, pageNum));
 
-        for (int i = 0; i < 2 * d; ++i) {
-            leaf.put(new IntDataBox(i), new RecordId(i, (short) i));
+        for (int i = 0; i < 10; i++) {
+            keys.add(new IntDataBox(i));
+            rids.add(new RecordId(i, (short) i));
+
+            leaf = new LeafNode(metadata, bufferManager, keys, rids, Optional.of(42L), treeContext);
+
+            pageNum = leaf.getPage().getPageNum();
+
             assertEquals(leaf, LeafNode.fromBytes(metadata, bufferManager, treeContext, pageNum));
         }
     }
