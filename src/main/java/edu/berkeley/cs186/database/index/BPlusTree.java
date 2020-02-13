@@ -254,6 +254,8 @@ public class BPlusTree {
      * This method should raise an exception if the tree is not empty at time
      * of bulk loading. If data does not meet the preconditions (contains
      * duplicates or not in order), the resulting behavior is undefined.
+     * Undefined behavior means you can handle these cases however you want
+     * (or not at all) and you are not required to write any explicit checks.
      *
      * The behavior of this method should be similar to that of InnerNode's
      * bulkLoad (see comments in BPlusNode.bulkLoad).

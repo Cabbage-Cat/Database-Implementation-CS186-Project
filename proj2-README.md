@@ -12,6 +12,9 @@ You should watch the B+ Trees lectures before working on this project.
 
 ## Getting Started
 
+The project files you'll be making changes to are all located in 
+`src/main/java/edu.berkeley.cs186.database/index`. See the section "Submitting the Assignment"
+for a full list of the files we'll be grading you on.
 The test cases for this project are all located in
 `src/test/java/edu/berkeley/cs186/database/index`. To build and test your code
 in the container, run the following inside `/cs186/sp20-moocbase`:
