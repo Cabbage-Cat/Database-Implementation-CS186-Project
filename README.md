@@ -144,7 +144,7 @@ your code is correct.
 To run all the tests for a particular assignment, start the container, navigate
 to the cloned repo (`cd /cs186/sp20-moocbase`), and run the following command:
 ```bash
-mvn clean test -DHW=n
+mvn clean test -D proj=n
 ```
 
 but replace `n` with one of: `0`, `2`, `3Part1`, `3Part2`, `4Part1`, `4Part2`, `5`.
@@ -186,7 +186,7 @@ when we run tests to grade your submission.
 ### Running tests in IntelliJ
 
 If you are using IntelliJ, and wish to run the same tests that
-`mvn clean test -DHW=n` runs, follow the instructions in the following document:
+`mvn clean test -D proj=n` runs, follow the instructions in the following document:
 
 [IntelliJ setup](intellij-test-setup.md)
 
