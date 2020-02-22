@@ -2,7 +2,7 @@
 
 This project is divided into two parts.
 
-Part 1 is due: **Sunday, 3/8/2020, 11:59 PM**.
+Part 1 is due: **Wednesday, 3/11/2020, 11:59 PM**.
 
 Part 2 is due: **Monday, 3/16/2020, 11:59 PM**.
 
