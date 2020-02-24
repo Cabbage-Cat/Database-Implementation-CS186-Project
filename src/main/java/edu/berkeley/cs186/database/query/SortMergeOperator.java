@@ -32,6 +32,7 @@ class SortMergeOperator extends JoinOperator {
 
     /**
      * An implementation of Iterator that provides an iterator interface for this operator.
+     *    See lecture slides.
      *
      * Before proceeding, you should read and understand SNLJOperator.java
      *    You can find it in the same directory as this file.

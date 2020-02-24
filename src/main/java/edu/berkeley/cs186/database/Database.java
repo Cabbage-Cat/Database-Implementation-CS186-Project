@@ -119,6 +119,20 @@ public class Database implements AutoCloseable {
      */
     public Database(String fileDir, int numMemoryPages, LockManager lockManager,
                     EvictionPolicy policy) {
+        this(fileDir, numMemoryPages, lockManager, policy, false);
+    }
+
+    /**
+     * Creates a new database.
+     *
+     * @param fileDir the directory to put the table files in
+     * @param numMemoryPages the number of pages of memory in the buffer cache
+     * @param lockManager the lock manager
+     * @param policy eviction policy for buffer cache
+     * @param useRecoveryManager flag to enable or disable the recovery manager (ARIES)
+     */
+    public Database(String fileDir, int numMemoryPages, LockManager lockManager,
+                    EvictionPolicy policy, boolean useRecoveryManager) {
         boolean initialized = setupDirectory(fileDir);
 
         numTransactions = 0;
@@ -131,10 +145,12 @@ public class Database implements AutoCloseable {
         indexInfoLookup = new ConcurrentHashMap<>();
         this.executor = new ThreadPool();
 
-        // TODO(proj5): change to use ARIES recovery manager
-        recoveryManager = new DummyRecoveryManager();
-        //recoveryManager = new ARIESRecoveryManager(lockManager.databaseContext(),
-        //        this::beginRecoveryTranscation, this::setTransactionCounter, this::getTransactionCounter);
+        if (useRecoveryManager) {
+            recoveryManager = new ARIESRecoveryManager(lockManager.databaseContext(),
+                    this::beginRecoveryTranscation, this::setTransactionCounter, this::getTransactionCounter);
+        } else {
+            recoveryManager = new DummyRecoveryManager();
+        }
 
         diskSpaceManager = new DiskSpaceManagerImpl(fileDir, recoveryManager);
         bufferManager = new BufferManagerImpl(diskSpaceManager, recoveryManager, numMemoryPages,

@@ -44,10 +44,15 @@ public class SNLJOperator extends JoinOperator {
      * Note that the left table is the "outer" loop and the right table is the "inner" loop.
      */
     private class SNLJIterator extends JoinIterator {
+        // Iterator over pages of the left relation
         private BacktrackingIterator<Record> leftIterator;
+        // Iterator over pages of the right relation
         private BacktrackingIterator<Record> rightIterator;
+        // The current record on the left page
         private Record leftRecord;
+        // The current record on the right page
         private Record rightRecord;
+        // The next record to return
         private Record nextRecord;
 
         public SNLJIterator() {
@@ -75,7 +80,7 @@ public class SNLJOperator extends JoinOperator {
         /**
          * After this method is called, rightRecord will contain the first record in the rightSource.
          * There is always a first record. If there were no first records (empty rightSource)
-         * then the code would not have made it this far. See line 69.
+         * then the code would not have made it this far. See line 66.
          */
         private void resetRightRecord() {
             this.rightIterator.reset();
@@ -103,6 +108,8 @@ public class SNLJOperator extends JoinOperator {
             this.nextRecord = null;
             do {
                 if (this.rightRecord != null) {
+                    // We have both a left record and a right record, so we compare the join values
+                    // and combine the rows if there is a match.
                     DataBox leftJoinValue = this.leftRecord.getValues().get(SNLJOperator.this.getLeftColumnIndex());
                     DataBox rightJoinValue = rightRecord.getValues().get(SNLJOperator.this.getRightColumnIndex());
                     if (leftJoinValue.equals(rightJoinValue)) {

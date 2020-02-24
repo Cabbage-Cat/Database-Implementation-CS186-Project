@@ -56,7 +56,7 @@ public class Histogram {
 
     private float minValue;
     private float maxValue;
-    private float width;
+    private float width;    // The width of each bucket
 
     /*This constructor initialize an empty histogram object*/
     public Histogram() {
@@ -112,8 +112,6 @@ public class Histogram {
      *              final bucket is inclusive on the last value.
      */
     public void buildHistogram(Table table, int attribute) {
-        // TODO(proj3_part2): implement
-
         //1. first calculate the min and the max values
 
         //2. calculate the width of each bin
@@ -122,7 +120,37 @@ public class Histogram {
 
         //4. populate the data using the increment(value) method
 
-        return;
+        Iterator<Record> iter = table.iterator();
+        while (iter.hasNext()) {
+            Record record = iter.next();
+            float quantizedValue = quantization(record, attribute);
+            this.minValue = Math.min(this.minValue, quantizedValue);
+            this.maxValue = Math.max(this.maxValue, quantizedValue);
+        }
+
+        this.width = (this.maxValue - this.minValue) / this.buckets.length;
+
+        for (int i = 0; i < this.buckets.length; i++) {
+            buckets[i] = new Bucket<>(this.minValue + (i) * width, this.minValue + (i + 1) * width);
+        }
+
+        iter = table.iterator();
+        while (iter.hasNext()) {
+            Record record = iter.next();
+            float quantizedValue = quantization(record, attribute);
+
+            int bucketIndex;
+
+            if (this.width == 0) {
+                bucketIndex = this.buckets.length - 1; //always put in the last bin
+            } else {
+                bucketIndex = (int) Math.floor((quantizedValue - this.minValue) / this.width);
+                bucketIndex = Math.max(0, bucketIndex);
+                bucketIndex = Math.min(bucketIndex, this.buckets.length - 1);
+            }
+
+            buckets[bucketIndex].increment(quantizedValue);
+        }
     }
 
     private int bucketIndex(float v) {
@@ -254,15 +282,32 @@ public class Histogram {
     }
 
     //Operations To Implement//////////////////////////////////////////////////////////////
+    //See comments above filter()
 
     /**
-     *  Given a quantized value, set the bucket that contains the value by 1/distinctCount,
+     *  Given a quantized value, set the bucket that contains the value to 1/distinctCount,
      *  and set all other values to 0.
      */
     private float [] allEquality(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(proj3_part2): implement
+        for (int i = 0; i < this.buckets.length - 1; i++) {
+            if (qvalue >= this.buckets[i].getStart() &&
+                    qvalue < this.buckets[i].getEnd()) {
+                result[i] = Math.min(1.0f / this.buckets[i].getDistinctCount(), 1.0f);
+            } else {
+                result[i] = 0.0f;
+            }
+        }
+
+        //handle last value
+        if (qvalue >= this.buckets[this.buckets.length - 1].getStart() &&
+                qvalue <= this.buckets[this.buckets.length - 1].getEnd()) {
+            int distinctCount = this.buckets[this.buckets.length - 1].getDistinctCount();
+            result[this.buckets.length - 1] = Math.min(1.0f / distinctCount, 1.0f);
+        } else {
+            result[this.buckets.length - 1] = 0.0f;
+        }
 
         return result;
     }
@@ -274,7 +319,22 @@ public class Histogram {
     private float [] allNotEquality(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(proj3_part2): implement
+        for (int i = 0; i < this.buckets.length - 1; i++) {
+            if (qvalue >= this.buckets[i].getStart() &&
+                    qvalue < this.buckets[i].getEnd()) {
+                result[i] = Math.max(1.0f - 1.0f / this.buckets[i].getDistinctCount(), 0.0f);
+            } else {
+                result[i] = 1.0f;
+            }
+        }
+        //handle last value
+        if (qvalue >= this.buckets[this.buckets.length - 1].getStart() &&
+                qvalue <= this.buckets[this.buckets.length - 1].getEnd()) {
+            int distinctCount = this.buckets[this.buckets.length - 1].getDistinctCount();
+            result[this.buckets.length - 1] = Math.max(1 - 1.0f / distinctCount, 0.0f);
+        } else {
+            result[this.buckets.length - 1] = 1.0f;
+        }
 
         return result;
     }
@@ -286,7 +346,15 @@ public class Histogram {
     private float [] allGreaterThan(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(proj3_part2): implement
+        for (int i = 0; i < this.buckets.length; i++) {
+            if (qvalue >= this.buckets[i].getStart() && qvalue < this.buckets[i].getEnd()) {
+                result[i] = (this.buckets[i].getEnd() - qvalue) / this.width;
+            } else if (qvalue < this.buckets[i].getStart()) {
+                result[i] = 1.0f;
+            } else {
+                result[i] = 0.0f;
+            }
+        }
 
         return result;
     }
@@ -298,7 +366,15 @@ public class Histogram {
     private float [] allLessThan(float qvalue) {
         float [] result = new float[this.buckets.length];
 
-        // TODO(proj3_part2): implement
+        for (int i = 0; i < this.buckets.length; i++) {
+            if (qvalue >= this.buckets[i].getStart() && qvalue < this.buckets[i].getEnd()) {
+                result[i] = (qvalue - this.buckets[i].getStart()) / this.width;
+            } else if (qvalue >= this.buckets[i].getEnd()) {
+                result[i] = 1.0f;
+            } else {
+                result[i] = 0.0f;
+            }
+        }
 
         return result;
     }

@@ -77,7 +77,7 @@ public class SortOperator {
     }
 
     /**
-     * Given a list of sorted runs, returns a new run that is the result
+     * Given a list of sorted runs, returns a NEW run that is the result
      * of merging the input runs. You should use a Priority Queue (java.util.PriorityQueue)
      * to determine which record should be should be added to the output run next.
      * It is recommended that your Priority Queue hold Pair<Record, Integer> objects
@@ -93,7 +93,9 @@ public class SortOperator {
     /**
      * Given a list of N sorted runs, returns a list of
      * sorted runs that is the result of merging (numBuffers - 1)
-     * of the input runs at a time.
+     * of the input runs at a time. It is okay for the last sorted run
+     * to use less than (numBuffers - 1) input runs if N is not a
+     * perfect multiple.
      */
     public List<Run> mergePass(List<Run> runs) {
         // TODO(proj3_part1): implement

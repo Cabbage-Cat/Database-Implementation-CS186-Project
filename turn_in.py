@@ -32,13 +32,14 @@ def files_to_copy(assignment):
             'src/main/java/edu/berkeley/cs186/database/query/BNLJOperator.java',
             'src/main/java/edu/berkeley/cs186/database/query/SortOperator.java',
             'src/main/java/edu/berkeley/cs186/database/query/SortMergeOperator.java',
+            'src/main/java/edu/berkeley/cs186/database/query/GraceHashJoin.java'
         ],
         'proj3_part2': [
             'src/main/java/edu/berkeley/cs186/database/query/BNLJOperator.java',
             'src/main/java/edu/berkeley/cs186/database/query/SortOperator.java',
             'src/main/java/edu/berkeley/cs186/database/query/SortMergeOperator.java',
             'src/main/java/edu/berkeley/cs186/database/query/QueryPlan.java',
-            'src/main/java/edu/berkeley/cs186/database/table/stats/Histogram.java',
+            'src/main/java/edu/berkeley/cs186/database/query/GraceHashJoin.java'
         ],
         'proj4_part1': [
             'src/main/java/edu/berkeley/cs186/database/concurrency/LockType.java',

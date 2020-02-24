@@ -37,7 +37,7 @@ public class TestSortOperator {
     // 2 second max per method tested.
     @Rule
     public TestRule globalTimeout = new DisableOnDebug(Timeout.millis((long) (
-                2000 * TimeoutScaling.factor)));
+                5000 * TimeoutScaling.factor)));
 
     @Ignore
     public static class SortRecordComparator implements Comparator<Record> {

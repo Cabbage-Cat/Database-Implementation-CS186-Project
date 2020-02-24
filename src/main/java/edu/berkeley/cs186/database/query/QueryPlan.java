@@ -58,6 +58,7 @@ public class QueryPlan {
         this.joinLeftColumnNames = new ArrayList<>();
         this.joinRightColumnNames = new ArrayList<>();
 
+        // The select lists are of the same length. See select()
         this.selectColumnNames = new ArrayList<>();
         this.selectOperators = new ArrayList<>();
         this.selectDataBoxes = new ArrayList<>();
