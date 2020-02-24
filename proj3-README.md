@@ -47,6 +47,7 @@ The test cases for Part 2 are located in `src/test/java/edu/berkeley/cs186/datab
 To build and test your code in the container, run the following:
 
 ```bash
+git pull origin master
 mvn clean test -D proj=3
 ```
 
