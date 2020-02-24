@@ -60,6 +60,25 @@ public class TestUtils {
         return new Schema(fieldNames, dataBoxes);
     }
 
+    public static Schema createSchemaOfIntAndString(int len) {
+        List<String> names = Arrays.asList("int", "string");
+        List<Type> types = Arrays.asList(Type.intType(),
+                                         Type.stringType(len));
+        return new Schema(names, types);
+    }
+
+    public static Schema createSchemaOfInt() {
+        List<String> names = Arrays.asList("int");
+        List<Type> types = Arrays.asList(Type.intType());
+        return new Schema(names, types);
+    }
+
+    public static Record createRecordWithInt(int val) {
+        List<DataBox> dataValues = new ArrayList<DataBox>();
+        dataValues.add(new IntDataBox(val));
+        return new Record(dataValues);
+    }
+
     public static Record createRecordWithAllTypes() {
         List<DataBox> dataValues = new ArrayList<DataBox>();
         dataValues.add(new BoolDataBox(true));
@@ -76,6 +95,13 @@ public class TestUtils {
         dataValues.add(new IntDataBox(val));
         dataValues.add(new StringDataBox("" + (char) (val % 79 + 0x30), 1));
         dataValues.add(new FloatDataBox((float) val));
+        return new Record(dataValues);
+    }
+
+    public static Record createRecordWithIntAndStringWithValue(int val, String s, int len) {
+        List<DataBox> dataValues = new ArrayList<DataBox>();
+        dataValues.add(new IntDataBox(val));
+        dataValues.add(new StringDataBox(s, len));
         return new Record(dataValues);
     }
 

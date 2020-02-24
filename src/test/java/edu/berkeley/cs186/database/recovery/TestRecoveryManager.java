@@ -37,7 +37,7 @@ public class TestRecoveryManager {
     // 1 second per test
     @Rule
     public TestRule globalTimeout = new DisableOnDebug(Timeout.millis((long) (
-                1000 * TimeoutScaling.factor)));
+                2000 * TimeoutScaling.factor)));
 
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
