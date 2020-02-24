@@ -51,7 +51,7 @@ public class GraceHashJoin {
      * partitions.
      *
      * It will be helpful to take a look at HashPartition.java to see what methods you can use
-     * to add the record to the correct page in the corresponding partition.
+     * to add the record to the correct partition.
      *
      */
     private void partition(HashPartition[] partitions, Iterator<Record> records, boolean left,
