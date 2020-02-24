@@ -38,11 +38,13 @@ project.
 ## Getting Started
 
 The test cases for Part 1 are located in `src/test/java/edu/berkeley/cs186/database/query`
-(`TestJoinOperator` and `TestSortOperator`).
+(`TestJoinOperator`, `TestSortOperator`, and `TestGraceHashJoin`).
 
 The test cases for Part 2 are located in `src/test/java/edu/berkeley/cs186/database/query`
 (`TestBasicQuery`, `TestOptimization2`, `TestOptimizationJoins`,
 `TestSingleAccess`, and `TestSingleAccessJoins`).
+
+The files you will be responsible for modifying can all be found in `src/main/java/edu/berkeley/cs186/database/query`. A full list of files you will be submitting can be found in the section "Submitting the Assignment".
 
 To build and test your code in the container, run the following:
 
