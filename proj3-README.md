@@ -2,9 +2,9 @@
 
 This project is divided into two parts.
 
-Part 1 is due: **Wednesday, 3/11/2020, 11:59 PM**.
+Part 1 is due: **Friday, 3/13/2020, 11:59 PM**.
 
-Part 2 is due: **Monday, 3/16/2020, 11:59 PM**.
+Part 2 is due: **Wednesday, 3/18/2020, 11:59 PM**.
 
 Part 2 does not require Part 1 to be completed first, but you will need to make sure
 any code you write for Part 1 does not throw an exception before starting Part 2. See
