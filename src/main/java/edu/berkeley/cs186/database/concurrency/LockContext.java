@@ -187,6 +187,7 @@ public class LockContext {
      * @return true if holds a SIX at an ancestor, false if not
      */
     private boolean hasSIXAncestor(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
         return false;
     }
 
@@ -197,6 +198,7 @@ public class LockContext {
      * @return a list of ResourceNames of descendants which the transaction holds a S or IS lock.
      */
     private List<ResourceName> sisDescendants(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
         return new ArrayList<>();
     }
 

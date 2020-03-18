@@ -57,6 +57,8 @@ You will need to implement the following methods of `LockContext`:
   database level). Note that it is possible for the explicit lock type to be one type, and the effective lock type
   to be a different lock type, specifically if there is an ancestor that has a SIX lock.
 
+  You will also find it helpful to implement the helper methods we provide the structure for you (hasSIXAncestor, sisDescendants). While you do not need to use our helper methods, we provide nice documentation of what they should do which will be used in the main functions.
+
 ##### Hierarchy
 
 The `LockContext` objects all share a single underlying `LockManager` object, which was

@@ -83,6 +83,8 @@ You will need to implement the following methods of `LockManager`:
 - `getLockType`: this is the main way to query the lock manager, and returns the type of lock that
   a transaction has on a specific resource.
 
+  You will also find it helpful to implement the helper methods we provide the structure for you. Read through the file and you will see additional TODO comments. While you do not need to use our helper methods, we provide nice documentation of what they should do which will be used in the main functions.
+
 ##### Queues
 Whenever a request for a lock cannot be satisfied (either because it conflicts with locks
 other transactions already have on the resource, or because there's a queue of requests for locks
