@@ -66,6 +66,7 @@ public class LockManager {
          * Allows conflicts for locks held by transaction id EXCEPT.
          */
         boolean checkCompatible(LockType lockType, long except) {
+            return false;
         }
 
         /**
@@ -73,12 +74,14 @@ public class LockManager {
          * Updates lock on resource if the transaction already has a lock.
          */
         void grantOrUpdateLock(Lock lock) {
+            return;
         }
 
         /**
          * Releases the lock LOCK and processes the queue. Assumes it had been granted before.
          */
         void releaseLock(Lock lock) {
+            return;
         }
 
         /**
@@ -86,6 +89,7 @@ public class LockManager {
          * in a blocked state.
          */
         void addToQueue(LockRequest request, boolean addFront) {
+            return;
         }
 
         /**
@@ -93,12 +97,14 @@ public class LockManager {
          * when the next lock cannot be granted.
          */
         private void processQueue() {
+            return;
         }
 
         /**
          * Gets the type of lock TRANSACTION has on this resource.
          */
         LockType getTransactionLockType(long transaction) {
+            return LockType.NL;
         }
 
         @Override

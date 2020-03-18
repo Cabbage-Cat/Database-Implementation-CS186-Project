@@ -94,7 +94,7 @@ public class LockContext {
      */
     public void acquire(TransactionContext transaction, LockType lockType)
     throws InvalidLockException, DuplicateLockRequestException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -112,7 +112,7 @@ public class LockContext {
      */
     public void release(TransactionContext transaction)
     throws NoLockHeldException, InvalidLockException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -136,7 +136,7 @@ public class LockContext {
      */
     public void promote(TransactionContext transaction, LockType newLockType)
     throws DuplicateLockRequestException, NoLockHeldException, InvalidLockException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -163,7 +163,7 @@ public class LockContext {
      * @throws UnsupportedOperationException if context is readonly
      */
     public void escalate(TransactionContext transaction) throws NoLockHeldException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -177,7 +177,7 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
         return LockType.NL;
     }
 
@@ -187,6 +187,7 @@ public class LockContext {
      * @return true if holds a SIX at an ancestor, false if not
      */
     private boolean hasSIXAncestor(TransactionContext transaction) {
+        return false;
     }
 
     /**
@@ -196,6 +197,7 @@ public class LockContext {
      * @return a list of ResourceNames of descendants which the transaction holds a S or IS lock.
      */
     private List<ResourceName> sisDescendants(TransactionContext transaction) {
+        return;
     }
 
     /**
@@ -205,7 +207,7 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
         return LockType.NL;
     }
 
