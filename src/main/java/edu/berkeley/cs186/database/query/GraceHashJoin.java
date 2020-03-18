@@ -185,22 +185,6 @@ public class GraceHashJoin {
         return null;
     }
 
-    /**
-     * This function will be called by some of the tests.
-     * It will provide the test with the inputs the test will use to run NHJ and/or GHJ.
-     *
-     * Change the values passed into setNumLeftRelationRecords and setNumRightRelationRecords so that
-     * Naive Hash Join breaks but Grace Hash Join passes! Currently, NHJ will work with the default values.
-     *
-     * Assume B = 6
-     *
-     * Additionally, create a set of records that when passed into GHJ (for both left and right relations),
-     * will make it fail! (In our case, hit the maximum pass cap)
-     *
-     * If you get a Java heap space error, that means your numRecords value is too big.
-     *
-     */
-
     // Feel free to add your own helper methods here if you wish to do so
 
     //////////////////////////////////////// BUILT-IN HELPER METHODS /////////////////////////////////////

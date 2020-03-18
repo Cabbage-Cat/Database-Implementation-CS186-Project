@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-@Category({Proj4Tests.class, Proj4Part2Tests.class})
+@Category({Proj4Tests.class, Proj4Part3Tests.class})
 public class TestDatabaseLocking {
     private static final String TestDir = "testDatabaseLocking";
     private static boolean passedPreCheck = false;

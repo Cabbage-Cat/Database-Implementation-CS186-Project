@@ -5,6 +5,10 @@ import edu.berkeley.cs186.database.common.Pair;
 public class LoggingLockContext extends LockContext {
     private boolean allowDisable = true;
 
+    /**
+     * A special LockContext that works with a LoggingLockManager to emit logs
+     * when the user uses disableChildLocks() or capacity()
+     */
     LoggingLockContext(LoggingLockManager lockman, LockContext parent, Pair<String, Long> name) {
         super(lockman, parent, name);
     }

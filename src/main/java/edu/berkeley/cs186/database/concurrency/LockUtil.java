@@ -1,5 +1,5 @@
 package edu.berkeley.cs186.database.concurrency;
-
+// If you see this line, you have successfully pulled the latest changes from the skeleton for proj4!
 import edu.berkeley.cs186.database.TransactionContext;
 
 /**
