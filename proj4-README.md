@@ -51,20 +51,23 @@ To run just Part 1 tests, run:
 mvn clean test -D proj=4Part1
 ```
 
-There should be 40 failures and 42 tests run.
+There should be 22 failures and 23 tests run.
 
 To run just Part 2 tests, run:
 ```bash
 mvn clean test -D proj=4Part2
 ```
 
-There should be 30 failures, 1 error, and 34 tests run. (These numbers may
+There should be 25 and 28 tests run. (These numbers may
 change as you work through Part 1).
 
 To run just Part 3 tests, run:
 ```bash
 mvn clean test -D proj=4Part3
 ```
+
+There should be 23, 1 error, and 25 tests run. (These numbers may
+change as you work through Part 1 and 2).
 
 ## Part 0: Understand the Skeleton Code
 

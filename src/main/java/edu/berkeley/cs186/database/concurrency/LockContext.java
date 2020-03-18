@@ -197,7 +197,7 @@ public class LockContext {
      * @return a list of ResourceNames of descendants which the transaction holds a S or IS lock.
      */
     private List<ResourceName> sisDescendants(TransactionContext transaction) {
-        return;
+        return new ArrayList<>();
     }
 
     /**
