@@ -2,11 +2,11 @@
 
 This project is divided into two parts.
 
-Part 1 is due: **Friday, 4/3/2020, 11:59 PM**.
+Part 1 is due: **Thursday, 4/2/2020, 11:59 PM**.
 
-Part 2 is due: **Tuesday, 4/14/2020, 11:59 PM**.
+Part 2 is due: **Wednesday, 4/8/2020, 11:59 PM**.
 
-Part 3 is due: **{{part3-due-date}}**.
+Part 3 is due: **Tuesday, 4/14/2020, 11:59 PM**.
 
 Part 3 requires Part 2 to be completed first which requires Part 1 to be completed first. See the Grading section at the bottom of this document for notes on how your score will be computed.
 
