@@ -1,5 +1,5 @@
 package edu.berkeley.cs186.database.concurrency;
-
+// If you see this line, you have successfully pulled the latest changes from the skeleton for proj4!
 import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.common.Pair;
 
@@ -94,7 +94,7 @@ public class LockContext {
      */
     public void acquire(TransactionContext transaction, LockType lockType)
     throws InvalidLockException, DuplicateLockRequestException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -112,14 +112,15 @@ public class LockContext {
      */
     public void release(TransactionContext transaction)
     throws NoLockHeldException, InvalidLockException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
 
     /**
      * Promote TRANSACTION's lock to NEWLOCKTYPE. For promotion to SIX from IS/IX/S, all S,
-     * IS, and SIX locks on descendants must be simultaneously released.
+     * IS, and SIX locks on descendants must be simultaneously released. The helper function sisDescendants
+     * may be helpful here.
      *
      * Note: you *must* make any necessary updates to numChildLocks, or
      * else calls to LockContext#saturation will not work properly.
@@ -129,12 +130,13 @@ public class LockContext {
      * @throws InvalidLockException if the requested lock type is not a promotion or promoting
      * would cause the lock manager to enter an invalid state (e.g. IS(parent), X(child)). A promotion
      * from lock type A to lock type B is valid if B is substitutable
-     * for A and B is not equal to A, or if B is SIX and A is IS/IX/S, and invalid otherwise.
+     * for A and B is not equal to A, or if B is SIX and A is IS/IX/S, and invalid otherwise. hasSIXAncestor may
+     * be helpful here.
      * @throws UnsupportedOperationException if context is readonly
      */
     public void promote(TransactionContext transaction, LockType newLockType)
     throws DuplicateLockRequestException, NoLockHeldException, InvalidLockException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -161,7 +163,7 @@ public class LockContext {
      * @throws UnsupportedOperationException if context is readonly
      */
     public void escalate(TransactionContext transaction) throws NoLockHeldException {
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
 
         return;
     }
@@ -175,8 +177,29 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
         return LockType.NL;
+    }
+
+    /**
+     * Helper method to see if the transaction holds a SIX lock at an ancestor of this context
+     * @param transaction the transaction
+     * @return true if holds a SIX at an ancestor, false if not
+     */
+    private boolean hasSIXAncestor(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+        return false;
+    }
+
+    /**
+     * Helper method to get a list of resourceNames of all locks that are S or IS and are descendants of current context
+     * for the given transaction.
+     * @param transaction the given transaction
+     * @return a list of ResourceNames of descendants which the transaction holds a S or IS lock.
+     */
+    private List<ResourceName> sisDescendants(TransactionContext transaction) {
+        // TODO(proj4_part2): implement
+        return new ArrayList<>();
     }
 
     /**
@@ -186,7 +209,7 @@ public class LockContext {
         if (transaction == null) {
             return LockType.NL;
         }
-        // TODO(proj4_part1): implement
+        // TODO(proj4_part2): implement
         return LockType.NL;
     }
 

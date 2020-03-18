@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import edu.berkeley.cs186.database.AbstractTransactionContext;
 import edu.berkeley.cs186.database.TimeoutScaling;
 import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.categories.*;
@@ -19,7 +18,7 @@ import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
 
-@Category({Proj4Tests.class, Proj4Part1Tests.class})
+@Category({Proj4Tests.class, Proj4Part2Tests.class})
 public class TestLockContext {
     private LoggingLockManager lockManager;
 
@@ -54,7 +53,8 @@ public class TestLockContext {
         dbLockContext.acquire(transactions[0], LockType.IS);
         try {
             tableLockContext.acquire(transactions[0], LockType.X);
-            fail();
+            fail("Attempting to acquire an X lock with an IS lock on " +
+                 "the parent should throw an InvalidLockException.");
         } catch (InvalidLockException e) {
             // do nothing
         }
@@ -102,7 +102,8 @@ public class TestLockContext {
         tableLockContext.acquire(transactions[0], LockType.S);
         try {
             dbLockContext.release(transactions[0]);
-            fail();
+            fail("Attemptng to release an IS lock when a child resource " +
+                 "still holds an S locks should throw an InvalidLockException");
         } catch (InvalidLockException e) {
             // do nothing
         }

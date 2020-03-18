@@ -437,7 +437,7 @@ public class TestJoinOperator {
                     expectedRecord = expectedRecord4;
                 }
                 Record r = outputIterator.next();
-                assertEquals("mismatch at record " + numRecords, r, expectedRecord);
+                assertEquals("mismatch at record " + numRecords, expectedRecord, r);
                 numRecords++;
             }
             checkIOs(0);
