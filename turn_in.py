@@ -16,7 +16,11 @@ def check_student_id(student_id):
     return student_id
 
 def test_category(assignment):
-    return assignment[4:].replace('_p', 'P').replace('Part2', '')
+    if assignment == 'proj3_part2':
+            return '3'
+    if assignment == 'proj4_part3':
+            return '4'
+    return assignment[4:].replace('_p', 'P')
 
 def files_to_copy(assignment):
     files = {
