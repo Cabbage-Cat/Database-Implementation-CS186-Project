@@ -21,7 +21,7 @@ To build and test your code in the container, run the following inside
 mvn clean test -D proj=5
 ```
 
-There should be 8 failures, 4 errors, and 23 tests run.
+There should be 14 failures, 6 errors, and 31 tests run.
 
 ## Understanding the Skeleton Code
 
