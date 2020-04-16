@@ -47,7 +47,8 @@ public class TestRecoveryManager {
         testDir = tempFolder.newFolder("test-dir").getAbsolutePath();
         recoveryManager = loadRecoveryManager(testDir);
         DummyTransaction.cleanupTransactions();
-        LogRecord.onRedoHandler(t -> {});
+        LogRecord.onRedoHandler(t -> {
+        });
     }
 
     @After
@@ -130,18 +131,16 @@ public class TestRecoveryManager {
         Transaction transaction2 = DummyTransaction.create(2L);
         recoveryManager.startTransaction(transaction2);
 
-        long[] LSNs = new long[] {
-            recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 0
-            recoveryManager.logPageWrite(2L, pageNum + 1, pageOffset, before, after), // 1
-            recoveryManager.logPageWrite(1L, pageNum, pageOffset, after, before), // 2
-            recoveryManager.logPageWrite(2L, pageNum + 1, pageOffset, after, before), // 3
-            recoveryManager.logAllocPart(2L, 2), // 4
-            recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 5
-            recoveryManager.commit(2L), // 6
-            recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 7
-            -1L,
-            -1L,
-        };
+        long[] LSNs = new long[] { recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 0
+                                   recoveryManager.logPageWrite(2L, pageNum + 1, pageOffset, before, after), // 1
+                                   recoveryManager.logPageWrite(1L, pageNum, pageOffset, after, before), // 2
+                                   recoveryManager.logPageWrite(2L, pageNum + 1, pageOffset, after, before), // 3
+                                   recoveryManager.logAllocPart(2L, 2), // 4
+                                   recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 5
+                                   recoveryManager.commit(2L), // 6
+                                   recoveryManager.logPageWrite(1L, pageNum, pageOffset, before, after), // 7
+                                   -1L, -1L,
+                                 };
 
         assertEquals(LSNs[7], transactionTable.get(1L).lastLSN);
         assertEquals(LSNs[6], transactionTable.get(2L).lastLSN);
@@ -361,10 +360,11 @@ public class TestRecoveryManager {
         List<Long> LSNs = new ArrayList<>();
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 0
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 0,
-                                        before, after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(3L, 10000000003L, 0L, (short) 0,
-                                        before, after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 0, before,
+                              after))); // 1
+        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(3L, 10000000003L, 0L, (short) 0, before,
+                                        after))); // 2
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(1L, LSNs.get(1)))); // 3
         LSNs.add(logManager.appendToLog(new EndTransactionLogRecord(1L, LSNs.get(3)))); // 4
         LSNs.add(logManager.appendToLog(new FreePageLogRecord(2L, 10000000001L, 0L))); // 5
@@ -380,7 +380,8 @@ public class TestRecoveryManager {
         // load from disk again
         recoveryManager = loadRecoveryManager(testDir);
 
-        // new recovery manager - tables/log manager/other state loaded with old manager are different
+        // new recovery manager - tables/log manager/other state loaded with old manager
+        // are different
         // with the new recovery manager
         logManager = getLogManager(recoveryManager);
         Map<Long, Long> dirtyPageTable = getDirtyPageTable(recoveryManager);
@@ -416,12 +417,9 @@ public class TestRecoveryManager {
         assertFalse(transaction2.cleanedUp);
 
         // lock requests made
-        assertEquals(Arrays.asList(
-                         "request 1 X(database/1/10000000001)",
-                         "request 1 X(database/1/10000000002)",
-                         "request 3 X(database/1/10000000003)",
-                         "request 2 X(database/1/10000000001)"
-                     ), lockRequests);
+        assertEquals(Arrays.asList("request 1 X(database/1/10000000001)",
+                                   "request 1 X(database/1/10000000002)",
+                                   "request 3 X(database/1/10000000003)", "request 2 X(database/1/10000000001)"), lockRequests);
 
         // transaction counter - from begin checkpoint
         assertEquals(9876543210L, getTransactionCounter(recoveryManager));
@@ -446,12 +444,15 @@ public class TestRecoveryManager {
         List<Long> LSNs = new ArrayList<>();
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 0
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 1,
-                                        before, after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(1), (short) 1,
-                                        after, before))); // 2
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(2), (short) 2,
-                                        before, after))); // 3
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 1, before,
+                              after))); // 1
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(1), (short) 1, after,
+                              before))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(2), (short) 2, before,
+                              after))); // 3
         LSNs.add(logManager.appendToLog(new AllocPartLogRecord(1L, 10, LSNs.get(3)))); // 4
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(1L, LSNs.get(4)))); // 5
         LSNs.add(logManager.appendToLog(new EndTransactionLogRecord(1L, LSNs.get(5)))); // 6
@@ -474,12 +475,12 @@ public class TestRecoveryManager {
         dirtyPageTable.put(10000000002L, LSNs.get(2));
         dirtyPageTable.put(10000000003L, LSNs.get(3));
 
-        // set up checks for redo - these get called in sequence with each LogRecord#redo call
-        setupRedoChecks(Arrays.asList(
-                            (LogRecord record) -> assertEquals((long) LSNs.get(2), (long) record.LSN),
-                            (LogRecord record) -> assertEquals((long) LSNs.get(3), (long) record.LSN),
-                            (LogRecord record) -> assertEquals((long) LSNs.get(4), (long) record.LSN)
-                        ));
+        // set up checks for redo - these get called in sequence with each
+        // LogRecord#redo call
+        setupRedoChecks(Arrays.asList((LogRecord record) -> assertEquals((long) LSNs.get(2),
+                                      (long) record.LSN),
+                                      (LogRecord record) -> assertEquals((long) LSNs.get(3), (long) record.LSN),
+                                      (LogRecord record) -> assertEquals((long) LSNs.get(4), (long) record.LSN)));
 
         runRedo(recoveryManager);
 
@@ -501,12 +502,15 @@ public class TestRecoveryManager {
         List<Long> LSNs = new ArrayList<>();
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 0
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 1,
-                                        before, after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(1), (short) 2,
-                                        before, after))); // 2
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000004L, LSNs.get(2), (short) 3,
-                                        before, after))); // 3
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 1, before,
+                              after))); // 1
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(1), (short) 2, before,
+                              after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000004L, LSNs.get(2), (short) 3, before,
+                              after))); // 3
         LSNs.add(logManager.appendToLog(new AbortTransactionLogRecord(1L, LSNs.get(3)))); // 4
 
         // actually do the writes
@@ -532,34 +536,30 @@ public class TestRecoveryManager {
         entry1.transaction.setStatus(Transaction.Status.RECOVERY_ABORTING);
         transactionTable.put(1L, entry1);
 
-        // set up checks for undo - these get called in sequence with each LogRecord#redo call
+        // set up checks for undo - these get called in sequence with each
+        // LogRecord#redo call
         // (which should be called on CLRs)
-        setupRedoChecks(Arrays.asList(
-        (LogRecord record) -> {
+        setupRedoChecks(Arrays.asList((LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000004L), record.getPageNum());
-        },
-        (LogRecord record) -> {
+        }, (LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000003L), record.getPageNum());
-        },
-        (LogRecord record) -> {
+        }, (LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000002L), record.getPageNum());
-        },
-        (LogRecord record) -> {
+        }, (LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000001L), record.getPageNum());
-        }
-                        ));
+        }));
 
         runUndo(recoveryManager);
 
@@ -592,12 +592,10 @@ public class TestRecoveryManager {
         Map<Long, Long> dirtyPageTable = getDirtyPageTable(recoveryManager);
         Map<Long, TransactionTableEntry> transactionTable = getTransactionTable(recoveryManager);
 
-        setupRedoChecks(Collections.singletonList(
-        (LogRecord record) -> {
+        setupRedoChecks(Collections.singletonList((LogRecord record) -> {
             assertEquals(LSN, record.getLSN());
             assertEquals(LogType.UPDATE_PAGE, record.getType());
-        }
-                        ));
+        }));
 
         Runnable func = recoveryManager.restart(); // analysis + redo
 
@@ -635,16 +633,15 @@ public class TestRecoveryManager {
         Transaction transaction3 = DummyTransaction.create(3L);
         recoveryManager.startTransaction(transaction3);
 
-        long[] LSNs = new long[] {
-            recoveryManager.logPageWrite(1L, 10000000001L, (short) 0, before, after), // 0
-            recoveryManager.logPageWrite(2L, 10000000003L, (short) 0, before, after), // 1
-            recoveryManager.commit(1L), // 2
-            recoveryManager.logPageWrite(3L, 10000000004L, (short) 0, before, after), // 3
-            recoveryManager.logPageWrite(2L, 10000000001L, (short) 0, after, before), // 4
-            recoveryManager.end(1L), // 5
-            recoveryManager.logPageWrite(3L, 10000000002L, (short) 0, before, after), // 6
-            recoveryManager.abort(2), // 7
-        };
+        long[] LSNs = new long[] { recoveryManager.logPageWrite(1L, 10000000001L, (short) 0, before, after), // 0
+                                   recoveryManager.logPageWrite(2L, 10000000003L, (short) 0, before, after), // 1
+                                   recoveryManager.commit(1L), // 2
+                                   recoveryManager.logPageWrite(3L, 10000000004L, (short) 0, before, after), // 3
+                                   recoveryManager.logPageWrite(2L, 10000000001L, (short) 0, after, before), // 4
+                                   recoveryManager.end(1L), // 5
+                                   recoveryManager.logPageWrite(3L, 10000000002L, (short) 0, before, after), // 6
+                                   recoveryManager.abort(2), // 7
+                                 };
 
         // flush everything - recovery tests should always start
         // with a clean load from disk, and here we want everything sent to disk first.
@@ -720,10 +717,12 @@ public class TestRecoveryManager {
         List<Long> LSNs = new ArrayList<>();
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 0
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 0,
-                                        before, after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(1), (short) 0,
-                                        before, after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(0), (short) 0, before,
+                              after))); // 1
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000003L, LSNs.get(1), (short) 0, before,
+                              after))); // 2
         LSNs.add(logManager.appendToLog(logManager.fetchLogRecord(LSNs.get(2)).undo(LSNs.get(
                                             2)).getFirst())); // 3
         LSNs.add(logManager.appendToLog(new AbortTransactionLogRecord(1L, LSNs.get(3)))); // 4
@@ -754,16 +753,15 @@ public class TestRecoveryManager {
         entry1.transaction.setStatus(Transaction.Status.RECOVERY_ABORTING);
         transactionTable.put(1L, entry1);
 
-        // set up checks for undo - these get called in sequence with each LogRecord#redo call
+        // set up checks for undo - these get called in sequence with each
+        // LogRecord#redo call
         // (which should be called on CLRs)
-        setupRedoChecks(Collections.singletonList(
-        (LogRecord record) -> {
+        setupRedoChecks(Collections.singletonList((LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000001L), record.getPageNum());
-        }
-                        ));
+        }));
 
         runUndo(recoveryManager);
 
@@ -799,8 +797,9 @@ public class TestRecoveryManager {
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 0
         LSNs.add(logManager.appendToLog(new AllocPageLogRecord(1L, 10000000099L, LSNs.get(0)))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(1), (short) 0,
-                                        before, after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(1L, 10000000002L, LSNs.get(1), (short) 0, before,
+                              after))); // 2
         LSNs.add(logManager.appendToLog(new AbortTransactionLogRecord(1L, LSNs.get(2)))); // 3
 
         logManager.fetchLogRecord(LSNs.get(0)).redo(dsm, bm);
@@ -825,30 +824,27 @@ public class TestRecoveryManager {
         entry1.transaction.setStatus(Transaction.Status.RECOVERY_ABORTING);
         transactionTable.put(1L, entry1);
 
-        // set up checks for undo - these get called in sequence with each LogRecord#redo call
+        // set up checks for undo - these get called in sequence with each
+        // LogRecord#redo call
         // (which should be called on CLRs)
         LogManager logManager1 = logManager;
-        setupRedoChecks(Arrays.asList(
-        (LogRecord record) -> {
+        setupRedoChecks(Arrays.asList((LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000002L), record.getPageNum());
-        },
-        (LogRecord record) -> {
+        }, (LogRecord record) -> {
             assertEquals(LogType.UNDO_ALLOC_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals(19999L, logManager1.getFlushedLSN()); // flushed
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000099L), record.getPageNum());
-        },
-        (LogRecord record) -> {
+        }, (LogRecord record) -> {
             assertEquals(LogType.UNDO_UPDATE_PAGE, record.getType());
             assertNotNull("log record not appended to log yet", record.LSN);
             assertEquals((long) record.LSN, transactionTable.get(1L).lastLSN);
             assertEquals(Optional.of(10000000001L), record.getPageNum());
-        }
-                        ));
+        }));
 
         runUndo(recoveryManager);
 
@@ -919,7 +915,7 @@ public class TestRecoveryManager {
 
         bufferManager.evictAll();
 
-        // 10000000001L  _not_ in DPT: it should be added on undo
+        // 10000000001L _not_ in DPT: it should be added on undo
         getTransactionTable(recoveryManager).get(t1.getTransNum()).lastLSN = 40000L;
         getTransactionTable(recoveryManager).get(t1.getTransNum()).touchedPages.add(10000000001L);
         t1.setStatus(Transaction.Status.ABORTING);
@@ -931,14 +927,11 @@ public class TestRecoveryManager {
         LogRecord expectedUpdateCLR = updateRecord.undo(60000L).getFirst();
         expectedUpdateCLR.setLSN(70000L);
 
-        setupRedoChecks(Arrays.asList(
-        logRecord -> {
+        setupRedoChecks(Arrays.asList(logRecord -> {
             assertEquals(expectedAllocCLR, logRecord);
-        },
-        logRecord -> {
+        }, logRecord -> {
             assertEquals(expectedUpdateCLR, logRecord);
-        }
-                        ));
+        }));
 
         recoveryManager.end(t1.getTransNum());
 
@@ -988,7 +981,8 @@ public class TestRecoveryManager {
 
         logManager.flushToLSN(29999L); // force next record to be LSN 30000L
         LogRecord updateRecord3 = new UpdatePageLogRecord(t1.getTransNum(), 91757270000008529L, 20000L,
-                (short) 3030, before, after);
+                (short) 3030,
+                before, after);
         logManager.appendToLog(updateRecord3);
         updateRecord3.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
 
@@ -1025,40 +1019,35 @@ public class TestRecoveryManager {
 
         long initNumIOs = bufferManager.getNumIOs();
 
-        setupRedoChecks(Arrays.asList(
-        logRecord -> {
+        setupRedoChecks(Arrays.asList(logRecord -> {
             assertEquals(expectedCLR1, logRecord);
             assertEquals(expectedCLR1.getLSN(), logRecord.getLSN());
             assertEquals(69999L, logManager.getFlushedLSN());
-        },
-        logRecord -> {
+        }, logRecord -> {
             assertEquals(expectedCLR2, logRecord);
             assertEquals(expectedCLR2.getLSN(), logRecord.getLSN());
             assertEquals(79999L, logManager.getFlushedLSN());
-        },
-        logRecord -> {
+        }, logRecord -> {
             assertEquals(expectedCLR3, logRecord);
             assertEquals(expectedCLR3.getLSN(), logRecord.getLSN());
             assertEquals(79999L, logManager.getFlushedLSN());
-        },
-        logRecord -> {
+        }, logRecord -> {
             assertEquals(expectedCLR4, logRecord);
             assertEquals(expectedCLR4.getLSN(), logRecord.getLSN());
             assertEquals(89999L, logManager.getFlushedLSN());
-        },
-        logRecord -> {
+        }, logRecord -> {
             assertEquals(expectedCLR5, logRecord);
             assertEquals(expectedCLR5.getLSN(), logRecord.getLSN());
             assertEquals(99999L, logManager.getFlushedLSN());
-        }
-                        ));
+        }));
 
         recoveryManager.rollbackToSavepoint(t1.getTransNum(), "savepoint");
 
         finishRedoChecks();
 
         long finalNumIOs = bufferManager.getNumIOs();
-        // 4 new log pages (8 w/ flush) + reading 5 records (alloc/free aren't counted by the i/o counter)
+        // 4 new log pages (8 w/ flush) + reading 5 records (alloc/free aren't counted
+        // by the i/o counter)
         // + writing one page
         assertEquals(14, finalNumIOs - initNumIOs);
 
@@ -1126,75 +1115,70 @@ public class TestRecoveryManager {
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(1L, 0L))); // 0
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000004L, 0L, (short) 0, before,
                                         after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(1), (short) 0,
-                                        before, after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(1), (short) 0, before,
+                              after))); // 2
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(3L, 10000000007L, 0L, (short) 0, before,
                                         after))); // 3
         LSNs.add(logManager.appendToLog(new AbortTransactionLogRecord(3L, LSNs.get(3)))); // 4
         LSNs.add(logManager.appendToLog(new BeginCheckpointLogRecord(0xf00dbaadL))); // 5
         LSNs.add(logManager.appendToLog(new BeginCheckpointLogRecord(0xf00dbaaeL))); // 6
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000005L, LSNs.get(2), (short) 0,
-                                        before, after))); // 7
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(7), (short) 0,
-                                        before, after))); // 8
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(8), (short) 0,
-                                        after, before))); // 9
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(9), (short) 0,
-                                        after, before))); // 10
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000005L, LSNs.get(2), (short) 0, before,
+                              after))); // 7
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(7), (short) 0, before,
+                              after))); // 8
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(8), (short) 0, after,
+                              before))); // 9
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(9), (short) 0, after,
+                              before))); // 10
         LSNs.add(logManager.appendToLog(new EndTransactionLogRecord(1L, LSNs.get(0)))); // 11
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(2L, LSNs.get(10)))); // 12
         LSNs.add(logManager.appendToLog(logManager.fetchLogRecord(LSNs.get(3)).undo(LSNs.get(
                                             3)).getFirst())); // 13
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(6L, 0L))); // 14
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-        new HashMap<Long, Long>() {
+        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(new HashMap<Long, Long>() {
             {
                 put(10000000003L, LSNs.get(9));
                 put(10000000006L, LSNs.get(2));
             }
-        },
-        new HashMap<Long, Pair<Transaction.Status, Long>>() {
+        }, new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
                 put(3L, new Pair<>(Transaction.Status.ABORTING, LSNs.get(4)));
                 put(6L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        Collections.emptyMap()
-                                        ))); // 15
+        }, Collections.emptyMap()))); // 15
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(5L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 16
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-                                            Collections.emptyMap(),
+        LSNs.add(logManager.appendToLog(
+                     new EndCheckpointLogRecord(Collections.emptyMap(),
         new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
-                //TODO: uncomment this line starting next semester
-                //put(1L, new Pair<>(Transaction.Status.COMMITTING, LSNs.get(0)));
+                // TODO: uncomment this line starting next semester
+                // put(1L, new Pair<>(Transaction.Status.COMMITTING, LSNs.get(0)));
                 put(2L, new Pair<>(Transaction.Status.COMMITTING, LSNs.get(12)));
                 put(4L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        new HashMap<Long, List<Long>>() {
+        }, new HashMap<Long, List<Long>>() {
             {
                 put(2L, Arrays.asList(10000000003L, 10000000004L, 10000000005L, 10000000006L));
                 put(3L, Collections.singletonList(10000000007L));
             }
-        }
-                                        ))); // 17
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-        new HashMap<Long, Long>() {
+        }))); // 17
+        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(new HashMap<Long, Long>() {
             {
                 put(10000000003L, LSNs.get(9));
                 put(10000000006L, LSNs.get(2));
             }
-        },
-        new HashMap<Long, Pair<Transaction.Status, Long>>() {
+        }, new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
                 put(3L, new Pair<>(Transaction.Status.ABORTING, LSNs.get(4)));
                 put(6L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        Collections.emptyMap()
-                                        ))); // 18
+        }, Collections.emptyMap()))); // 18
         // end/abort records from analysis
         LSNs.add(10000L); // 19, new page
         LSNs.add(LSNs.get(19) + (new EndTransactionLogRecord(0L, 0L)).toBytes().length); // 20
@@ -1211,7 +1195,8 @@ public class TestRecoveryManager {
         // load from disk again
         recoveryManager = loadRecoveryManager(testDir);
 
-        // new recovery manager - tables/log manager/other state loaded with old manager are different
+        // new recovery manager - tables/log manager/other state loaded with old manager
+        // are different
         // with the new recovery manager
         logManager = getLogManager(recoveryManager);
         Map<Long, Long> dirtyPageTable = getDirtyPageTable(recoveryManager);
@@ -1281,74 +1266,69 @@ public class TestRecoveryManager {
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(1L, 0L))); // 0
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000004L, 0L, (short) 0, before,
                                         after))); // 1
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(1), (short) 0,
-                                        before, after))); // 2
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(1), (short) 0, before,
+                              after))); // 2
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(3L, 10000000007L, 0L, (short) 0, before,
                                         after))); // 3
         LSNs.add(logManager.appendToLog(new AbortTransactionLogRecord(3L, LSNs.get(3)))); // 4
         LSNs.add(logManager.appendToLog(new BeginCheckpointLogRecord(0xf00dbaadL))); // 5
         LSNs.add(logManager.appendToLog(new BeginCheckpointLogRecord(0xf00dbaaeL))); // 6
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000005L, LSNs.get(2), (short) 0,
-                                        before, after))); // 7
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(7), (short) 0,
-                                        before, after))); // 8
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(8), (short) 0,
-                                        after, before))); // 9
-        LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(9), (short) 0,
-                                        after, before))); // 10
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000005L, LSNs.get(2), (short) 0, before,
+                              after))); // 7
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(7), (short) 0, before,
+                              after))); // 8
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000003L, LSNs.get(8), (short) 0, after,
+                              before))); // 9
+        LSNs.add(logManager
+                 .appendToLog(new UpdatePageLogRecord(2L, 10000000006L, LSNs.get(9), (short) 0, after,
+                              before))); // 10
         LSNs.add(logManager.appendToLog(new EndTransactionLogRecord(1L, LSNs.get(0)))); // 11
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(2L, LSNs.get(10)))); // 12
         LSNs.add(logManager.appendToLog(logManager.fetchLogRecord(LSNs.get(3)).undo(LSNs.get(
                                             3)).getFirst())); // 13
         LSNs.add(logManager.appendToLog(new CommitTransactionLogRecord(6L, 0L))); // 14
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-        new HashMap<Long, Long>() {
+        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(new HashMap<Long, Long>() {
             {
                 put(10000000003L, LSNs.get(9));
                 put(10000000006L, LSNs.get(2));
             }
-        },
-        new HashMap<Long, Pair<Transaction.Status, Long>>() {
+        }, new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
                 put(3L, new Pair<>(Transaction.Status.ABORTING, LSNs.get(4)));
                 put(6L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        Collections.emptyMap()
-                                        ))); // 15
+        }, Collections.emptyMap()))); // 15
         LSNs.add(logManager.appendToLog(new UpdatePageLogRecord(5L, 10000000001L, 0L, (short) 0, before,
                                         after))); // 16
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-                                            Collections.emptyMap(),
+        LSNs.add(logManager.appendToLog(
+                     new EndCheckpointLogRecord(Collections.emptyMap(),
         new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
                 put(1L, new Pair<>(Transaction.Status.COMMITTING, LSNs.get(0)));
                 put(2L, new Pair<>(Transaction.Status.COMMITTING, LSNs.get(12)));
                 put(4L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        new HashMap<Long, List<Long>>() {
+        }, new HashMap<Long, List<Long>>() {
             {
                 put(2L, Arrays.asList(10000000003L, 10000000004L, 10000000005L, 10000000006L));
                 put(3L, Collections.singletonList(10000000007L));
             }
-        }
-                                        ))); // 17
-        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(
-        new HashMap<Long, Long>() {
+        }))); // 17
+        LSNs.add(logManager.appendToLog(new EndCheckpointLogRecord(new HashMap<Long, Long>() {
             {
                 put(10000000003L, LSNs.get(9));
                 put(10000000006L, LSNs.get(2));
             }
-        },
-        new HashMap<Long, Pair<Transaction.Status, Long>>() {
+        }, new HashMap<Long, Pair<Transaction.Status, Long>>() {
             {
                 put(3L, new Pair<>(Transaction.Status.ABORTING, LSNs.get(4)));
                 put(6L, new Pair<>(Transaction.Status.RUNNING, 0L));
             }
-        },
-        Collections.emptyMap()
-                                        ))); // 18
+        }, Collections.emptyMap()))); // 18
         // end/abort records from analysis
         LSNs.add(10000L); // 19, new page
         LSNs.add(LSNs.get(19) + (new EndTransactionLogRecord(0L, 0L)).toBytes().length); // 20
@@ -1365,7 +1345,8 @@ public class TestRecoveryManager {
         // load from disk again
         recoveryManager = loadRecoveryManager(testDir);
 
-        // new recovery manager - tables/log manager/other state loaded with old manager are different
+        // new recovery manager - tables/log manager/other state loaded with old manager
+        // are different
         // with the new recovery manager
         logManager = getLogManager(recoveryManager);
         Map<Long, Long> dirtyPageTable = getDirtyPageTable(recoveryManager);
@@ -1386,13 +1367,102 @@ public class TestRecoveryManager {
         assertEquals(9999L, logManager.getFlushedLSN());
     }
 
+    @Test
+    @Category(PublicTests.class)
+    public void testNestedRollback() throws Exception {
+        byte[] before = new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, };
+        byte[] after = new byte[] { (byte) 0xBA, (byte) 0xAD, (byte) 0xF0, (byte) 0x00, (byte) 0x00, (byte) 0x0D };
+
+        LogManager logManager = getLogManager(recoveryManager);
+
+        BufferManager bufferManager = getBufferManager(recoveryManager);
+
+        Transaction t1 = DummyTransaction.create(23895732L);
+        Transaction t2 = DummyTransaction.create(9823758L);
+
+        recoveryManager.startTransaction(t1);
+        recoveryManager.startTransaction(t2);
+
+        logManager.flushToLSN(9999L); // force next record to be LSN 10000L
+        LogRecord updateRecord1 = new UpdatePageLogRecord(t1.getTransNum(), 10000000001L, 0L, (short) 71,
+                before, after);
+        logManager.appendToLog(updateRecord1);
+        updateRecord1.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
+
+        logManager.flushToLSN(19999L); // force next record to be LSN 20000L
+        LogRecord updateRecord2 = new UpdatePageLogRecord(t2.getTransNum(), 10000000001L, 0L, (short) 33,
+                before, after);
+        logManager.appendToLog(updateRecord2);
+        updateRecord2.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
+
+        getTransactionTable(recoveryManager).get(t2.getTransNum()).lastLSN = updateRecord2.getLSN();
+        recoveryManager.savepoint(t2.getTransNum(), "savepoint");
+
+        logManager.flushToLSN(29999L); // force next record to be LSN 30000L
+        LogRecord updateRecord3 = new UpdatePageLogRecord(t2.getTransNum(), 10000000001L, 20000L,
+                (short) 11,
+                before, after);
+        logManager.appendToLog(updateRecord3);
+        updateRecord3.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
+
+        logManager.flushToLSN(39999L); // force next record to be LSN 40000L
+        LogRecord updateRecord4 = new UpdatePageLogRecord(t1.getTransNum(), 10000000002L, 10000L,
+                (short) 991,
+                before, after);
+        logManager.appendToLog(updateRecord4);
+        updateRecord4.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
+
+        logManager.flushToLSN(49999L); // force next record to be LSN 50000L
+        LogRecord updateRecord5 = new UndoUpdatePageLogRecord(t2.getTransNum(), 10000000001L, 30000L,
+                20000L,
+                (short) 11, before);
+        logManager.appendToLog(updateRecord5);
+        updateRecord5.redo(getDiskSpaceManager(recoveryManager), getBufferManager(recoveryManager));
+
+        logManager.flushToLSN(59999L); // force next record to be LSN 60000L
+
+        bufferManager.evictAll();
+
+        getDirtyPageTable(recoveryManager).put(10000000001L, 10000L);
+        getDirtyPageTable(recoveryManager).put(10000000003L, 40000L);
+        getTransactionTable(recoveryManager).get(t1.getTransNum()).lastLSN = 40000L;
+        getTransactionTable(recoveryManager).get(t1.getTransNum()).touchedPages.add(10000000001L);
+        getTransactionTable(recoveryManager).get(t1.getTransNum()).touchedPages.add(10000000002L);
+        getTransactionTable(recoveryManager).get(t2.getTransNum()).lastLSN = 50000L;
+        getTransactionTable(recoveryManager).get(t2.getTransNum()).touchedPages.add(10000000001L);
+        Map<Long, Long> expectedDPT = new HashMap<>(getDirtyPageTable(recoveryManager));
+        Map<Long, TransactionTableEntry> expectedTxnTable = new HashMap<>(getTransactionTable(
+                    recoveryManager));
+
+        long initNumIOs = bufferManager.getNumIOs();
+
+        setupRedoChecks(Collections.emptyList());
+
+        recoveryManager.rollbackToSavepoint(t2.getTransNum(), "savepoint");
+
+        finishRedoChecks();
+
+        long finalNumIOs = bufferManager.getNumIOs();
+        // read CLR (1)
+        assertEquals(1L, finalNumIOs - initNumIOs);
+
+        Iterator<LogRecord> iter = logManager.scanFrom(60000L);
+        assertFalse(iter.hasNext()); // no other records written
+
+        assertEquals(59999L, logManager.getFlushedLSN()); // not flushed
+        assertEquals(t1.getStatus(), Transaction.Status.RUNNING);
+        assertEquals(expectedDPT, getDirtyPageTable(recoveryManager));
+        assertEquals(expectedTxnTable, getTransactionTable(recoveryManager));
+        assertEquals(0L, getTransactionCounter(recoveryManager));
+    }
+
     /*************************************************************************
      * Helpers - these are similar to the ones available in TestARIESStudent *
      *************************************************************************/
 
     /**
-     * Helper to set up checks for redo. The first call to LogRecord.redo will
-     * call the first method in METHODS, the second call to the second method in METHODS,
+     * Helper to set up checks for redo. The first call to LogRecord.redo will call
+     * the first method in METHODS, the second call to the second method in METHODS,
      * and so on. Call this method before the redo pass, and call finishRedoChecks
      * after the redo pass.
      */
@@ -1408,27 +1478,28 @@ public class TestRecoveryManager {
     }
 
     /**
-     * Helper to finish checks for redo. Call this after the redo pass (or undo pass)-
-     * if not enough redo calls were performed, an error is thrown.
+     * Helper to finish checks for redo. Call this after the redo pass (or undo
+     * pass)- if not enough redo calls were performed, an error is thrown.
      *
-     * If setupRedoChecks is used for the redo pass, and this method is not called before
-     * the undo pass, and the undo pass calls undo at least once, an error may be incorrectly thrown.
+     * If setupRedoChecks is used for the redo pass, and this method is not called
+     * before the undo pass, and the undo pass calls undo at least once, an error
+     * may be incorrectly thrown.
      */
     private void finishRedoChecks() {
         assertTrue("LogRecord#redo() not called enough times", redoMethods.isEmpty());
-        LogRecord.onRedoHandler(record -> {});
+        LogRecord.onRedoHandler(record -> {
+        });
     }
 
     /**
      * Loads the recovery manager from disk.
+     *
      * @param dir testDir
      * @return recovery manager, loaded from disk
      */
     protected RecoveryManager loadRecoveryManager(String dir) throws Exception {
         RecoveryManager recoveryManager = new ARIESRecoveryManagerNoLocking(
-            new DummyLockContext(new Pair<>("database", 0L)),
-            DummyTransaction::create
-        );
+            new DummyLockContext(new Pair<>("database", 0L)), DummyTransaction::create);
         DiskSpaceManager diskSpaceManager = new DiskSpaceManagerImpl(dir, recoveryManager);
         BufferManager bufferManager = new BufferManagerImpl(diskSpaceManager, recoveryManager, 32,
                 new LRUEvictionPolicy());
@@ -1451,11 +1522,11 @@ public class TestRecoveryManager {
     }
 
     /**
-     * Flushes everything to disk, but does not call RecoveryManager#shutdown. Similar
-     * to pulling the plug on the database at a time when no changes are in memory. You
-     * can simulate a shutdown where certain changes _are_ in memory, by simply never
-     * applying them (i.e. write a log record, but do not make the changes on the
-     * buffer manager/disk space manager).
+     * Flushes everything to disk, but does not call RecoveryManager#shutdown.
+     * Similar to pulling the plug on the database at a time when no changes are in
+     * memory. You can simulate a shutdown where certain changes _are_ in memory, by
+     * simply never applying them (i.e. write a log record, but do not make the
+     * changes on the buffer manager/disk space manager).
      */
     protected void shutdownRecoveryManager(RecoveryManager recoveryManager) throws Exception {
         ARIESRecoveryManager arm = (ARIESRecoveryManager) recoveryManager;
