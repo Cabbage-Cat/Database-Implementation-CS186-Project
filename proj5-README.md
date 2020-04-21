@@ -675,7 +675,7 @@ through it at your own pace if this portion of the course caught your interest.
 ## Grading
 
 - 50% of your grade will be made up of tests released to you (the tests that we provided in
-  `database.index.*`).
+  `database.recovery.TestRecoveryManager.java`).
 - 50% of your grade will be made up of hidden, unreleased tests that we will run on your submission
   after the deadline.
 
