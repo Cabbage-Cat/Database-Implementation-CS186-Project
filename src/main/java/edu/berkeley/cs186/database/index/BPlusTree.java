@@ -136,10 +136,12 @@ public class BPlusTree {
      */
     public Optional<RecordId> get(DataBox key) {
         typecheck(key);
-        // TODO(proj2): implement
+
+        LeafNode node = root.get(key);
+        return node.getKey(key);
+
         // TODO(proj4_part3): B+ tree locking
 
-        return Optional.empty();
     }
 
     /**
@@ -238,6 +240,25 @@ public class BPlusTree {
     public void put(DataBox key, RecordId rid) {
         typecheck(key);
         // TODO(proj2): implement
+        Optional<Pair<DataBox, Long>> popUpPair = root.put(key, rid);
+
+        // root not split
+        if (!popUpPair.isPresent()) { return; }
+
+        // root split
+
+        // new root data
+        List<DataBox> keys = new ArrayList<>();
+        List<Long> children = new ArrayList<>();
+        keys.add(popUpPair.get().getFirst());
+
+        BPlusNode splitRoot = BPlusNode.fromBytes(metadata, bufferManager, lockContext, popUpPair.get().getSecond());
+        children.add(root.getPage().getPageNum());
+        children.add(popUpPair.get().getSecond());
+
+        InnerNode newRoot = new InnerNode(metadata, bufferManager, keys, children, lockContext);
+        updateRoot(newRoot);
+
         // TODO(proj4_part3): B+ tree locking
 
         return;
@@ -280,7 +301,8 @@ public class BPlusTree {
      */
     public void remove(DataBox key) {
         typecheck(key);
-        // TODO(proj2): implement
+        root.remove(key);
+
         // TODO(proj4_part3): B+ tree locking
 
         return;

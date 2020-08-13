@@ -78,26 +78,55 @@ class InnerNode extends BPlusNode {
     // See BPlusNode.get.
     @Override
     public LeafNode get(DataBox key) {
-        // TODO(proj2): implement
-
-        return null;
+        int index = numLessThanEqual(key, keys);
+        BPlusNode nextSearch = getChild(index);
+        return nextSearch.get(key);
     }
 
     // See BPlusNode.getLeftmostLeaf.
     @Override
     public LeafNode getLeftmostLeaf() {
         assert(children.size() > 0);
-        // TODO(proj2): implement
-
-        return null;
+        BPlusNode child = getChild(0);
+        return child.getLeftmostLeaf();
     }
 
     // See BPlusNode.put.
     @Override
     public Optional<Pair<DataBox, Long>> put(DataBox key, RecordId rid) {
-        // TODO(proj2): implement
+        int index = numLessThanEqual(key, keys);
+        BPlusNode child = getChild(index);
+        Optional<Pair<DataBox, Long>> pair = child.put(key, rid);
 
-        return Optional.empty();
+        int order = metadata.getOrder();
+        int maxSize = order * 2;
+
+        // child not split
+        if (!pair.isPresent()) {
+            sync();
+            return Optional.empty();
+        }
+        DataBox newKey = pair.get().getFirst();
+        Long newChildPageId = pair.get().getSecond();
+        keys.add(index + 1, newKey);
+        children.add(index + 2, newChildPageId);
+        if (keys.size() <= maxSize) {
+            sync();
+            return Optional.empty();
+        }
+
+        // child split, create a new InnerNode
+        List<DataBox> keys = new ArrayList<>();
+        List<Long> children = new ArrayList<>();
+        for (int i = 0; i < order + 1; i++) {
+            keys.add(this.keys.remove(order));
+            children.add(this.children.remove(order + 1));
+        }
+        InnerNode newNode = new InnerNode(metadata, bufferManager, keys, children, treeContext);
+        DataBox popUpKey = keys.remove(0);
+        long popUpPageNum = newNode.getPage().getPageNum();
+        sync();
+        return Optional.of(new Pair<>(popUpKey, popUpPageNum));
     }
 
     // See BPlusNode.bulkLoad.
@@ -106,15 +135,15 @@ class InnerNode extends BPlusNode {
             float fillFactor) {
         // TODO(proj2): implement
 
+
         return Optional.empty();
     }
 
     // See BPlusNode.remove.
     @Override
     public void remove(DataBox key) {
-        // TODO(proj2): implement
-
-        return;
+        LeafNode leafNode = get(key);
+        leafNode.remove(key);
     }
 
     // Helpers ///////////////////////////////////////////////////////////////////

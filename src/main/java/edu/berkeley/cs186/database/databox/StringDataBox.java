@@ -45,7 +45,8 @@ public class StringDataBox extends DataBox {
     @Override
     public String toString() {
         // TODO(hw0): replace with return s;
-        return "Welcome to CS186 (original string: " + s + ")";
+        // return "Welcome to CS186 (original string: " + s + ")";
+        return s;
     }
 
     @Override
