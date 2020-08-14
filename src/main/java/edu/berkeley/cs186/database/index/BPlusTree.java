@@ -192,9 +192,36 @@ public class BPlusTree {
      */
     public Iterator<RecordId> scanAll() {
         // TODO(proj2): Return a BPlusTreeIterator.
+        return new ScanAllIter();
+
         // TODO(proj4_part3): B+ tree locking
 
-        return Collections.emptyIterator();
+    }
+
+    private class ScanAllIter implements Iterator<RecordId> {
+        private LeafNode currentScanLeaf;
+        private Iterator<RecordId> currentLeafScanIter;
+        private ScanAllIter() {
+            currentScanLeaf = root.getLeftmostLeaf();
+            currentLeafScanIter = currentScanLeaf.scanAll();
+        }
+        @Override
+        public boolean hasNext() {
+            if (!currentLeafScanIter.hasNext() && !currentScanLeaf.getRightSibling().isPresent()) {
+                return false;
+            }
+            while (!currentLeafScanIter.hasNext() && currentScanLeaf != null) {
+                currentScanLeaf = currentScanLeaf.getRightSibling().get();
+                currentLeafScanIter = currentScanLeaf.scanAll();
+            }
+            return currentLeafScanIter.hasNext();
+        }
+
+        @Override
+        public RecordId next() {
+            if (!hasNext()) { throw new UnsupportedOperationException("There is no next value!"); }
+            return currentLeafScanIter.next();
+        }
     }
 
     /**
@@ -222,10 +249,35 @@ public class BPlusTree {
      */
     public Iterator<RecordId> scanGreaterEqual(DataBox key) {
         typecheck(key);
-        // TODO(proj2): Return a BPlusTreeIterator.
+        return new ScanGreaterEqual(key);
         // TODO(proj4_part3): B+ tree locking
 
-        return Collections.emptyIterator();
+    }
+
+    private class ScanGreaterEqual implements Iterator<RecordId> {
+        private LeafNode currentScanLeaf;
+        private Iterator<RecordId> currentLeafScanIter;
+        private ScanGreaterEqual(DataBox key) {
+            currentScanLeaf = root.get(key);
+            currentLeafScanIter = currentScanLeaf.scanGreaterEqual(key);
+        }
+        @Override
+        public boolean hasNext() {
+            if (!currentLeafScanIter.hasNext() && !currentScanLeaf.getRightSibling().isPresent()) {
+                return false;
+            }
+            while (!currentLeafScanIter.hasNext() && currentScanLeaf != null) {
+                currentScanLeaf = currentScanLeaf.getRightSibling().get();
+                currentLeafScanIter = currentScanLeaf.scanAll();
+            }
+            return currentLeafScanIter.hasNext();
+        }
+
+        @Override
+        public RecordId next() {
+            if (!hasNext()) { throw new UnsupportedOperationException("There is no next value!"); }
+            return currentLeafScanIter.next();
+        }
     }
 
     /**
@@ -282,7 +334,30 @@ public class BPlusTree {
      * bulkLoad (see comments in BPlusNode.bulkLoad).
      */
     public void bulkLoad(Iterator<Pair<DataBox, RecordId>> data, float fillFactor) {
-        // TODO(proj2): implement
+        // Check empty
+        if (new ScanAllIter().hasNext()) { throw new UnsupportedOperationException("The BPlusTree is not empty!"); }
+
+        // Load data
+        while (data.hasNext()) {
+            Optional<Pair<DataBox, Long>> popUpPair = root.bulkLoad(data, fillFactor);
+
+            // split root
+            if (popUpPair.isPresent()) {
+                List<DataBox> keys = new ArrayList<>();
+                List<Long> children = new ArrayList<>();
+                keys.add(popUpPair.get().getFirst());
+                children.add(root.getPage().getPageNum());
+                children.add(popUpPair.get().getSecond());
+
+                // create new root
+                InnerNode newRoot = new InnerNode(metadata, bufferManager, keys, children, lockContext);
+                // update new root
+                updateRoot(newRoot);
+            }
+        }
+
+
+
         // TODO(proj4_part3): B+ tree locking
 
         return;
