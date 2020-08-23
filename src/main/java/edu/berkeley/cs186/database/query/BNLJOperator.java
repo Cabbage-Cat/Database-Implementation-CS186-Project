@@ -3,7 +3,9 @@ package edu.berkeley.cs186.database.query;
 import java.util.*;
 
 import edu.berkeley.cs186.database.TransactionContext;
+import edu.berkeley.cs186.database.common.iterator.ArrayBacktrackingIterator;
 import edu.berkeley.cs186.database.common.iterator.BacktrackingIterator;
+import edu.berkeley.cs186.database.common.iterator.ConcatBacktrackingIterator;
 import edu.berkeley.cs186.database.databox.DataBox;
 import edu.berkeley.cs186.database.memory.Page;
 import edu.berkeley.cs186.database.table.Record;
@@ -89,6 +91,22 @@ class BNLJOperator extends JoinOperator {
          */
         private void fetchNextLeftBlock() {
             // TODO(proj3_part1): implement
+            if (!leftIterator.hasNext()) { throw new NoSuchElementException("No more pages!"); }
+            BacktrackingIterator<Record> blockIterator =
+                    getBlockIterator(getLeftTableName(), leftIterator, numBuffers - 2);
+            while (!blockIterator.hasNext()) {
+                try {
+                    blockIterator =
+                            getBlockIterator(getLeftTableName(), leftIterator, numBuffers - 2);
+                } catch (NoSuchElementException e) {
+                    leftRecordIterator = null;
+                    leftRecord = null;
+                    throw new NoSuchElementException("No more pages!");
+                }
+            }
+            leftRecordIterator = blockIterator;
+            leftRecordIterator.markNext();
+            leftRecord = leftRecordIterator.next();
         }
 
         /**
@@ -100,7 +118,21 @@ class BNLJOperator extends JoinOperator {
          * should be set to null.
          */
         private void fetchNextRightPage() {
-            // TODO(proj3_part1): implement
+            if (!rightIterator.hasNext()) { throw new NoSuchElementException("No more pages!"); }
+            BacktrackingIterator<Record> blockIterator =
+                    getBlockIterator(getRightTableName(), rightIterator, 1);
+            while (!blockIterator.hasNext()) {
+                try {
+                    blockIterator =
+                            getBlockIterator(getRightTableName(), rightIterator, 1);
+                } catch (NoSuchElementException e) {
+                    rightRecordIterator = null;
+                    throw new NoSuchElementException("No more pages!");
+                }
+            }
+
+            rightRecordIterator = blockIterator;
+            rightRecordIterator.markNext();
         }
 
         /**
@@ -110,8 +142,39 @@ class BNLJOperator extends JoinOperator {
          * @throws NoSuchElementException if there are no more Records to yield
          */
         private void fetchNextRecord() {
-            // TODO(proj3_part1): implement
+            if (leftRecord == null) {
+                nextRecord = null;
+                throw new NoSuchElementException("There is no more record!");
+            }
+
+            Record nexRec = null;
+            while (nexRec == null) {
+                if (rightRecordIterator != null && rightRecordIterator.hasNext()) {
+                    Record right = rightRecordIterator.next();
+                    DataBox leftJoinValue = leftRecord.getValues().get(getLeftColumnIndex());
+                    DataBox rightJoinValue = right.getValues().get(getRightColumnIndex());
+                    if (leftJoinValue.equals(rightJoinValue)) {
+                        nexRec = joinRecords(leftRecord, right);
+                    }
+                } else {
+                    if (leftRecordIterator.hasNext()) {
+                        leftRecord = leftRecordIterator.next();
+                        rightRecordIterator.reset();
+                    }
+                    else if (rightIterator.hasNext()) {
+                        fetchNextRightPage();
+                        leftRecordIterator.reset();
+                        leftRecord = leftRecordIterator.next();
+                    } else {
+                        fetchNextLeftBlock();
+                        rightIterator.reset();
+                        fetchNextRightPage();
+                    }
+                }
+            }
+            nextRecord = nexRec;
         }
+
 
         /**
          * Helper method to create a joined record from a record of the left relation
