@@ -6,6 +6,7 @@ import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.common.iterator.BacktrackingIterator;
 import edu.berkeley.cs186.database.databox.DataBox;
 import edu.berkeley.cs186.database.table.Record;
+import edu.berkeley.cs186.database.table.Table;
 
 class SortMergeOperator extends JoinOperator {
     SortMergeOperator(QueryOperator leftSource,
@@ -58,8 +59,77 @@ class SortMergeOperator extends JoinOperator {
         private SortMergeIterator() {
             super();
             // TODO(proj3_part1): implement
+            Table t1 = getTransaction().getTable(getLeftTableName());
+
+            SortOperator s1 = new SortOperator(getTransaction(), getLeftTableName(),
+                    new LeftRecordComparator());
+            String tempT1 = s1.sort();
+            SortOperator s2 = new SortOperator(getTransaction(), getRightTableName(), new RightRecordComparator());
+            String tempT2 = s2.sort();
+
+            leftIterator = getRecordIterator(tempT1);
+            rightIterator = getRecordIterator(tempT2);
+            nextRecord = null;
+            leftRecord = leftIterator.hasNext()? leftIterator.next() : null;
+            rightRecord = rightIterator.hasNext()? rightIterator.next() : null;
+            marked = false;
+            try {
+                fetchNextRecord();
+            } catch (NoSuchElementException e) {
+                this.nextRecord = null;
+            }
         }
 
+        private void fetchNextRecord() {
+            if (leftRecord == null) {
+                throw new NoSuchElementException("No more Records!");
+            }
+            nextRecord = null;
+            if (rightRecord == null && !marked)
+                { throw new NoSuchElementException("No more Records!"); };
+            if (rightRecord == null) {
+                rightIterator.reset();
+                rightRecord = rightIterator.next();
+                leftRecord = leftIterator.next();
+                if (leftRecord == null) {
+                    throw new NoSuchElementException("No more Records!");
+                }
+                marked = false;
+            }
+            do {
+                if (!marked) {
+                    if (leftRecord == null) { throw new NoSuchElementException("Done!"); }
+                    DataBox l = leftRecord.getValues().get(getLeftColumnIndex());
+                    DataBox r = rightRecord.getValues().get(getRightColumnIndex());
+                    while (l.compareTo(r) < 0) {
+                        if (!leftIterator.hasNext()) { throw new NoSuchElementException("Done!"); }
+                        leftRecord = leftIterator.next();
+                        l = leftRecord.getValues().get(getLeftColumnIndex());
+                    }
+                    while (l.compareTo(r) > 0) {
+                        if (!rightIterator.hasNext()) { throw new NoSuchElementException("Done!"); }
+                        rightRecord = rightIterator.next();
+                        r = rightRecord.getValues().get(getRightColumnIndex());
+                    }
+                    rightIterator.markPrev();
+                    marked = true;
+                }
+
+                DataBox l = leftRecord.getValues().get(getLeftColumnIndex());
+                DataBox r = rightRecord.getValues().get(getRightColumnIndex());
+                if (l.equals(r)) {
+                    List<DataBox> values = new ArrayList<>(leftRecord.getValues());
+                    values.addAll(new ArrayList<>(rightRecord.getValues()));
+                    nextRecord = new Record(values);
+                    rightRecord = rightIterator.hasNext()? rightIterator.next() : null;
+                } else {
+                    rightIterator.reset();
+                    rightRecord = rightIterator.next();
+                    leftRecord = leftIterator.hasNext()? leftIterator.next() : null;
+                    marked = false;
+                }
+            } while (nextRecord == null);
+        }
         /**
          * Checks if there are more record(s) to yield
          *
@@ -68,8 +138,7 @@ class SortMergeOperator extends JoinOperator {
         @Override
         public boolean hasNext() {
             // TODO(proj3_part1): implement
-
-            return false;
+            return nextRecord != null;
         }
 
         /**
@@ -81,8 +150,14 @@ class SortMergeOperator extends JoinOperator {
         @Override
         public Record next() {
             // TODO(proj3_part1): implement
-
-            throw new NoSuchElementException();
+            if (nextRecord == null) { throw new NoSuchElementException(); }
+            Record retn = nextRecord;
+            try {
+                this.fetchNextRecord();
+            } catch (NoSuchElementException e) {
+                this.nextRecord = null;
+            }
+            return retn;
         }
 
         @Override
