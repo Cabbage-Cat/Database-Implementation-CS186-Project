@@ -264,11 +264,7 @@ public class QueryPlan {
         finalOperator = queryOperator;
         addGroupBy();
         addProjects();
-
-
-
         return finalOperator.execute();
-        // return this.executeNaive(); // TODO(proj3_part2): Replace this!!! Allows you to test intermediate functionality
     }
 
     /**
@@ -360,8 +356,6 @@ public class QueryPlan {
         // Find the cost of a sequential scan of the table
         // minOp = new SequentialScanOperator(this.transaction, table);
 
-        // TODO(proj3_part2): implement
-
         // 1. Find the cost of a sequential scan of the table
         List<Integer> eligibleIndexColumns = getEligibleIndexColumns(table);
         minOp = new SequentialScanOperator(this.transaction, table);
@@ -436,8 +430,6 @@ public class QueryPlan {
                                          Map<Set, QueryOperator> pass1Map) {
         Map<Set, QueryOperator> map = new HashMap<>();
 
-        // TODO(proj3_part2): implement
-
         //We provide a basic description of the logic you have to implement
 
         //Input: prevMap (maps a set of tables to a query operator--the operator that joins the set)
@@ -461,6 +453,9 @@ public class QueryPlan {
          * --- Then given the operator, use minCostJoinType to calculate the cheapest join with that
          * and the previously joined tables.
          */
+        QueryOperator leftOp = null;
+        QueryOperator rightOp = null;
+        Set subSet = null;
         for (Set childTableSet : prevMap.keySet()) {
             int size = joinTableNames.size();
             for (int i = 0; i < size; i++) {
@@ -473,28 +468,29 @@ public class QueryPlan {
 
                 boolean leftCondition = childTableSet.contains(leftTableName);
                 boolean rightCondition = childTableSet.contains(rightTableName);
-                QueryOperator operator = null;
-                QueryOperator operator1 = prevMap.get(childTableSet);
-                QueryOperator resOperator = null;
-                Set resTableSet = new HashSet(childTableSet);
                 // Case 1:
                 if (leftCondition && !rightCondition) {
-                    Set testSet = new HashSet();
-                    testSet.add(rightTableName);
-                    operator = pass1Map.get(testSet);
-                    resOperator = minCostJoinType(operator1, operator, leftColName, rightColName);
-                    resTableSet.add(rightTableName);
+                    subSet = new HashSet();
+                    subSet.add(rightTableName);
+                    leftOp = prevMap.get(childTableSet);
+                    rightOp = pass1Map.get(subSet);
+
                 }
                 // Case 2:
-                if (!leftCondition && rightCondition) {
-                    Set testSet = new HashSet();
-                    testSet.add(leftTableName);
-                    operator = pass1Map.get(testSet);
-                    resOperator = minCostJoinType(operator, operator1, leftColName, rightColName);
-                    resTableSet.add(leftTableName);
+                else if (!leftCondition && rightCondition) {
+                    subSet = new HashSet();
+                    subSet.add(leftTableName);
+                    leftOp = pass1Map.get(subSet);
+                    rightOp = prevMap.get(childTableSet);
                 }
-                if (resOperator != null) {
-                    map.put(resTableSet, resOperator);
+                else { continue; }
+                subSet.addAll(childTableSet);
+                QueryOperator subResOp = minCostJoinType(leftOp, rightOp, leftColName, rightColName);
+                if (!map.containsKey(subSet)) {
+                    map.put(subSet, subResOp);
+                }
+                else if (subResOp.getIOCost() < map.get(subSet).getIOCost()) {
+                    map.put(subSet, subResOp);
                 }
             }
         }
