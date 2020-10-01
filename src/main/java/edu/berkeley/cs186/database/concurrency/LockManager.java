@@ -83,7 +83,7 @@ public class LockManager {
         void grantOrUpdateLock(Lock lock) {
             int lockIndex = -1;
             for (int i = 0; i < locks.size(); i++) {
-                if (locks.get(i).transactionNum == lock.transactionNum) {
+                if (locks.get(i).transactionNum.equals(lock.transactionNum)) {
                     lockIndex = i;
                     break;
                 }
@@ -401,10 +401,13 @@ public class LockManager {
             shouldBlock =
                     !resourceEntry.checkCompatible(newLockType, transaction.getTransNum());
             Lock lock = new Lock(name, newLockType, transaction.getTransNum());
-            if (!shouldBlock) {
+            if (!shouldBlock && !newLockType.equals(LockType.SIX)) {
                 resourceEntry.grantOrUpdateLock(lock);
-                List<Lock> transactionLocks = getTransactionLocks(transaction.getTransNum());
-                replaceLock(transactionLocks, name, lock);
+            }
+            else if (!shouldBlock) {
+                List<ResourceName> release = new ArrayList<>();
+                release.add(name);
+                acquireAndRelease(transaction, name, LockType.SIX, release);
             }
             else {
                 resourceEntry.addToQueue(
