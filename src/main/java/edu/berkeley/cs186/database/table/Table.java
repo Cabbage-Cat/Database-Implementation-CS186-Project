@@ -4,6 +4,7 @@ import java.util.*;
 
 import edu.berkeley.cs186.database.Database;
 import edu.berkeley.cs186.database.DatabaseException;
+import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.common.iterator.*;
 import edu.berkeley.cs186.database.common.Bits;
 import edu.berkeley.cs186.database.common.Buffer;
@@ -111,6 +112,8 @@ public class Table implements BacktrackingIterable<Record> {
 
     // The lock context of the table.
     private LockContext lockContext;
+
+    boolean autoEscalate = true;
 
     // Constructors //////////////////////////////////////////////////////////////
     /**
@@ -238,6 +241,7 @@ public class Table implements BacktrackingIterable<Record> {
 
     // Modifiers /////////////////////////////////////////////////////////////////
     private synchronized void insertRecord(Page page, int entryNum, Record record) {
+        if (autoEscalate) { autoEscalate(LockType.X); }
         int offset = bitmapSizeInBytes + (entryNum * schema.getSizeInBytes());
         page.getBuffer().position(offset).put(record.toBytes(schema));
     }
@@ -252,6 +256,7 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public synchronized RecordId addRecord(List<DataBox> values) {
         Record record = schema.verify(values);
+        if (autoEscalate) { autoEscalate(LockType.X); }
         Page page = heapFile.getPageWithSpace(schema.getSizeInBytes());
         try {
             // Find the first empty slot in the bitmap.
@@ -290,6 +295,7 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public synchronized Record getRecord(RecordId rid) {
         validateRecordId(rid);
+        if (autoEscalate) { autoEscalate(LockType.S); }
         Page page = fetchPage(rid.getPageNum());
         try {
             byte[] bitmap = getBitMap(page);
@@ -314,6 +320,7 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public synchronized Record updateRecord(List<DataBox> values, RecordId rid) {
         // TODO(proj4_part3): modify for smarter locking
+        if (autoEscalate) { autoEscalate(LockType.X); }
         LockContext context = lockContext.childContext(rid.getPageNum());
         LockUtil.ensureSufficientLockHeld(context, LockType.X);
         validateRecordId(rid);
@@ -341,6 +348,7 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public synchronized Record deleteRecord(RecordId rid) {
         // TODO(proj4_part3): modify for smarter locking
+        if (autoEscalate) { autoEscalate(LockType.X); }
         LockContext context = lockContext.childContext(rid.getPageNum());
         LockUtil.ensureSufficientLockHeld(context, LockType.X);
         validateRecordId(rid);
@@ -443,6 +451,7 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public void enableAutoEscalate() {
         // TODO(proj4_part3): implement
+        autoEscalate = true;
     }
 
     /**
@@ -451,6 +460,19 @@ public class Table implements BacktrackingIterable<Record> {
      */
     public void disableAutoEscalate() {
         // TODO(proj4_part3): implement
+        autoEscalate = false;
+    }
+
+    private void autoEscalate(LockType lockType) {
+        // LockType is S or X.
+        if (lockContext != null) {
+            int tableSize = lockContext.capacity();
+            TransactionContext transaction = TransactionContext.getTransaction();
+            double lockPercent = lockContext.saturation(transaction);
+            if (tableSize >= 10 && lockPercent >= 0.2) {
+                lockContext.escalate(transaction);
+            }
+        }
     }
 
     // Iterators /////////////////////////////////////////////////////////////////
