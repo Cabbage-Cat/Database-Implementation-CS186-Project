@@ -26,21 +26,83 @@ public class LockUtil {
 
         TransactionContext transaction = TransactionContext.getTransaction(); // current transaction
         if (transaction == null || lockType.equals(LockType.NL)) { return; }
+
+        LockType effectiveLockType = lockContext.getEffectiveLockType(transaction);
+        if (LockType.substitutable(effectiveLockType, lockType)) { return; }
+
         LockType explicitLockType = lockContext.getExplicitLockType(transaction);
-        if (explicitLockType.equals(LockType.NL)) {
+        if (lockType.equals(LockType.S)) {
+            ArrayList<LockContext> parents = new ArrayList<>();
+            LockContext parent = lockContext.parent;
+            while (parent != null) {
+                parents.add(parent);
+                parent = parent.parent;
+            }
+            Collections.reverse(parents);
+            for (LockContext p : parents) {
+                LockType parentLockType = p.getExplicitLockType(transaction);
+                if (parentLockType.equals(LockType.NL)) {
+                    p.acquire(transaction, LockType.IS);
+                }
+            }
+
+            if (explicitLockType.equals(LockType.NL)) {
+                lockContext.acquire(transaction, LockType.S);
+            }
+            else if (explicitLockType.equals(LockType.IS)) {
+                lockContext.escalate(transaction);
+            } else {
+                lockContext.promote(transaction, LockType.SIX);
+            }
+        }
+        else {
+            ArrayList<LockContext> parents = new ArrayList<>();
+            LockContext parent = lockContext.parent;
+            while (parent != null) {
+                parents.add(parent);
+                parent = parent.parent;
+            }
+            Collections.reverse(parents);
+            for (LockContext p : parents) {
+                LockType parentLockType = p.getExplicitLockType(transaction);
+                if (parentLockType.equals(LockType.NL)) {
+                    p.acquire(transaction, LockType.IX);
+                }
+                else if (parentLockType.equals(LockType.IS)) {
+                    p.promote(transaction, LockType.IX);
+                }
+                else if (parentLockType.equals(LockType.S)) {
+                    p.promote(transaction, LockType.SIX);
+                }
+            }
+            if (explicitLockType.equals(LockType.NL)) {
+                lockContext.acquire(transaction, LockType.X);
+            }
+            else if (explicitLockType.equals(LockType.IS)) {
+                lockContext.escalate(transaction);
+                lockContext.promote(transaction, LockType.X);
+            }
+            else if (explicitLockType.equals(LockType.S)) {
+                lockContext.promote(transaction, LockType.X);
+            }
+            else {
+                lockContext.escalate(transaction);
+            }
+        }
+
+
+
+        /*if (explicitLockType.equals(LockType.NL)) {
             LockType ensureParentType = lockType.equals(LockType.S) ? LockType.IS : LockType.IX;
             ensureParent(transaction, lockContext.parent, ensureParentType);
             lockContext.acquire(transaction, lockType);
             return;
         }
-        LockType effectiveLockType = lockContext.getEffectiveLockType(transaction);
-        if (LockType.substitutable(effectiveLockType, lockType)) { return; }
-
         if (lockType.equals(LockType.S)) {
             if (explicitLockType.equals(LockType.IS)) {
                 lockContext.escalate(transaction);
             } else {
-                ensureParent(transaction, lockContext.parent, LockType.IX);
+                //ensureParent(transaction, lockContext.parent, LockType.IX);
                 lockContext.promote(transaction, LockType.SIX);
             }
             //lockContext.promote(transaction, lockType);
@@ -51,7 +113,7 @@ public class LockUtil {
             if (!lockContext.getExplicitLockType(transaction).equals(LockType.X)) {
                 lockContext.promote(transaction, LockType.X);
             }
-        }
+        }*/
 
     }
 

@@ -1,5 +1,6 @@
 package edu.berkeley.cs186.database.table;
 
+import edu.berkeley.cs186.database.TransactionContext;
 import edu.berkeley.cs186.database.common.ByteBuffer;
 import edu.berkeley.cs186.database.common.iterator.BacktrackingIterable;
 import edu.berkeley.cs186.database.common.iterator.BacktrackingIterator;
@@ -120,7 +121,8 @@ public class PageDirectory implements HeapFile {
         }
 
         Page page = this.firstHeader.loadPageWithSpace(requiredSpace);
-
+        LockContext context = lockContext.childContext(page.getPageNum());
+        LockUtil.ensureSufficientLockHeld(context, LockType.X);
         return new DataPage(pageDirectoryId, page);
     }
 

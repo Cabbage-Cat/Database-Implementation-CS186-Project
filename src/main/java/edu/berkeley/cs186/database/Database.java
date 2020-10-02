@@ -24,6 +24,7 @@ import edu.berkeley.cs186.database.query.QueryPlanException;
 import edu.berkeley.cs186.database.query.SortOperator;
 import edu.berkeley.cs186.database.recovery.*;
 import edu.berkeley.cs186.database.table.*;
+import edu.berkeley.cs186.database.table.Record;
 import edu.berkeley.cs186.database.table.stats.TableStats;
 
 @SuppressWarnings("unused")
@@ -849,7 +850,8 @@ public class Database implements AutoCloseable {
         @Override
         public Iterator<Record> sortedScan(String tableName, String columnName) {
             // TODO(proj4_part3): scan locking
-
+            LockContext tableContext = getTableContext(tableName);
+            LockUtil.ensureSufficientLockHeld(tableContext, LockType.S);
             Table tab = getTable(tableName);
             try {
                 Pair<String, BPlusTree> index = resolveIndexFromName(tableName, columnName);
@@ -868,7 +870,8 @@ public class Database implements AutoCloseable {
         @Override
         public Iterator<Record> sortedScanFrom(String tableName, String columnName, DataBox startValue) {
             // TODO(proj4_part3): scan locking
-
+            LockContext tableContext = getTableContext(tableName);
+            LockUtil.ensureSufficientLockHeld(tableContext, LockType.S);
             Table tab = getTable(tableName);
             Pair<String, BPlusTree> index = resolveIndexFromName(tableName, columnName);
             return new RecordIterator(tab, index.getSecond().scanGreaterEqual(startValue));
@@ -1055,7 +1058,25 @@ public class Database implements AutoCloseable {
         @Override
         public void close() {
             // TODO(proj4_part3): release locks held by the transaction
+            //TransactionContext transaction = TransactionContext.getTransaction();
+            /*List<Lock> locks = lockManager.getLocks(this);
+            List<LockContext> contexts = new ArrayList<>();
+            for (Lock l : locks) {
+                LockContext context = LockContext.fromResourceName(lockManager, l.name);
+                contexts.add(context);
+            }
+            Collections.reverse(contexts);
+            for (LockContext context : contexts) {
+                context.release(this);
+            }*/
+
+            List<Lock> lockList = lockManager.getLocks(this);
+            for (int i = lockList.size()-1;i >= 0;i--) {
+                LockContext ctxt = LockContext.fromResourceName(lockManager,lockList.get(i).name);
+                ctxt.release(this);
+            }
             return;
+
         }
 
         @Override

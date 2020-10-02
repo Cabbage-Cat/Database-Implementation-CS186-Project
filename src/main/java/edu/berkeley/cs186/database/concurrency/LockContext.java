@@ -304,6 +304,9 @@ public class LockContext {
         release(transaction);
     }
 
+    public int getChildNumber(long transId) {
+        return numChildLocks.getOrDefault(transId, -1);
+    }
 
     /**
      * Gets the type of lock that the transaction has at this level, either implicitly
